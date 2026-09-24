@@ -46,6 +46,8 @@ nav.toc a:hover,nav.toc a:focus-visible{background:var(--chip)}
 nav.toc a.sub{padding-left:22px;color:var(--muted);font-size:13px}
 nav.toc .exam{margin-top:14px;display:block;text-align:center;background:var(--accent);color:var(--sheet);font-weight:700;padding:10px;border-radius:8px}
 nav.toc .exam:hover{background:var(--accent)}
+nav.toc .print{margin-top:8px;width:100%;font:inherit;font-weight:700;background:transparent;color:var(--ink);border:1px solid var(--rule);border-radius:8px;padding:9px;cursor:pointer}
+nav.toc .print:hover{border-color:var(--ink)}
 @media (max-width:900px){nav.toc{position:static}nav.toc ol{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}nav.toc a.sub{display:none}}
 
 main.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:40px clamp(18px,5vw,56px);min-width:0}
@@ -200,6 +202,7 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
     <li><a href="#trampas">Confusiones frecuentes</a></li>
   </ol>
   <a class="exam" href="examen.html">Ir al examen de práctica →</a>
+  <button type="button" class="print js-print">Imprimir / Guardar PDF</button>
 </nav>
 
 <main class="sheet">
@@ -210,8 +213,8 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
   <p class="lead">Control interno, Sistema de Control Interno (SCI) y enfoque basado en procesos, según el MECIP 2015. Cada tema trae la definición de la clase y una explicación en palabras simples.</p>
   <div class="meta"><span>Unidad I · Introducción</span><span>Unidad II · Generalidades del SCI</span><span>Unidad III · Enfoque basado en procesos</span></div>
   <div class="print-bar">
-    <span>Para guardar en PDF A4: <kbd>Ctrl</kbd> + <kbd>P</kbd> (en Mac <kbd>⌘</kbd> + <kbd>P</kbd>) → Destino «Guardar como PDF» → Tamaño A4.</span>
-    <button type="button" id="btnPrint" hidden>Imprimir / Guardar PDF</button>
+    <button type="button" class="js-print">Imprimir / Guardar como PDF</button>
+    <span>Se imprime en hojas A4. Para obtener un PDF, elegí «Guardar como PDF» como destino. Atajo: <kbd>Ctrl</kbd> + <kbd>P</kbd> (en Mac <kbd>⌘</kbd> + <kbd>P</kbd>).</span>
   </div>
 </header>
 
@@ -684,9 +687,9 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 </div>
 <script>
 (function(){
-  var b=document.getElementById('btnPrint');
-  var top=true; try{top=window.self===window.top}catch(e){top=false}
-  if(top&&b){b.hidden=false;b.addEventListener('click',function(){window.print()})}
+  document.querySelectorAll('.js-print').forEach(function(b){
+    b.addEventListener('click',function(){ try{ window.print(); }catch(e){} });
+  });
 })();
 </script>
 </body>
