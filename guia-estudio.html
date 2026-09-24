@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guía MECIP · Clases 1 a 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@87,500;87,700;87,800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+:root{
+  --bg:#F3F5F2; --sheet:#FFFFFF; --ink:#1B2430; --muted:#556260; --rule:#D3DBD6;
+  --accent:#1F6F5C; --accent-soft:#E2F0EA; --warn:#9A6212; --warn-soft:#FBF0DC;
+  --bad:#A23B2C; --chip:#EEF2EF;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0F1513; --sheet:#161E1B; --ink:#E3EAE6; --muted:#9AA9A3; --rule:#2C3934;
+    --accent:#62C3A6; --accent-soft:#1B322B; --warn:#E2B25A; --warn-soft:#332818;
+    --bad:#EE8B7B; --chip:#1F2926;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0F1513; --sheet:#161E1B; --ink:#E3EAE6; --muted:#9AA9A3; --rule:#2C3934;
+  --accent:#62C3A6; --accent-soft:#1B322B; --warn:#E2B25A; --warn-soft:#332818;
+  --bad:#EE8B7B; --chip:#1F2926;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:32px;align-items:start}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr)}}
+
+/* índice lateral */
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);font-family:var(--display);font-size:14px}
+nav.toc .lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+nav.toc a{display:block;padding:6px 10px;border-radius:6px;color:var(--ink);text-decoration:none}
+nav.toc a:hover,nav.toc a:focus-visible{background:var(--chip)}
+nav.toc a.sub{padding-left:22px;color:var(--muted);font-size:13px}
+nav.toc .exam{margin-top:14px;display:block;text-align:center;background:var(--accent);color:var(--sheet);font-weight:700;padding:10px;border-radius:8px}
+nav.toc .exam:hover{background:var(--accent)}
+@media (max-width:900px){nav.toc{position:static}nav.toc ol{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}nav.toc a.sub{display:none}}
+
+main.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:40px clamp(18px,5vw,56px);min-width:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* tipografía */
+h1,h2,h3,h4{font-family:var(--display);font-stretch:87%;line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(34px,5vw,48px);font-weight:800;letter-spacing:-.01em}
+h2{font-size:30px;font-weight:800;margin-top:56px;padding-top:18px;border-top:3px solid var(--ink)}
+h3{font-size:21px;font-weight:700;margin-top:34px}
+h4{font-size:16px;font-weight:700;margin-top:18px}
+p{margin:10px 0;max-width:68ch}
+ul,ol{margin:10px 0;padding-left:22px;max-width:68ch}
+li{margin:4px 0}
+.eyebrow{font-family:var(--display);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h2 .eyebrow{display:block;margin-bottom:6px}
+.code{font-family:var(--mono);font-size:.86em;background:var(--chip);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.lead{font-size:19px;color:var(--muted);max-width:60ch}
+.meta{font-family:var(--display);font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px}
+
+/* cajas */
+.box{border:1px solid var(--rule);border-radius:8px;padding:14px 18px;margin:16px 0;break-inside:avoid}
+.box > :first-child{margin-top:0}.box > :last-child{margin-bottom:0}
+.simple{background:var(--accent-soft);border-color:transparent}
+.simple .tag,.trap .tag,.def .tag{font-family:var(--display);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:4px}
+.simple .tag{color:var(--accent)}
+.trap{background:var(--warn-soft);border-color:transparent}
+.trap .tag{color:var(--warn)}
+.def{border-left:4px solid var(--ink);border-radius:0 8px 8px 0}
+.def .tag{color:var(--muted)}
+.def p{font-style:italic}
+
+.print-bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-top:22px;padding:12px 16px;background:var(--chip);border-radius:8px;font-family:var(--display);font-size:14px}
+.print-bar button{font:inherit;font-weight:700;background:var(--ink);color:var(--sheet);border:0;border-radius:6px;padding:8px 14px;cursor:pointer}
+kbd{font-family:var(--mono);font-size:12px;border:1px solid var(--rule);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:var(--sheet)}
+
+/* grillas de tarjetas */
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:16px 0}
+.card{border:1px solid var(--rule);border-radius:8px;padding:12px 14px;break-inside:avoid}
+.card > b,.card > div > b{font-family:var(--display);font-stretch:87%;font-size:16px;display:block;margin-bottom:2px}
+.card p{margin:0;font-size:15px;line-height:1.5}
+.card .ex{margin-top:6px;font-size:14px;color:var(--muted)}
+
+/* flujos */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;margin:16px 0;font-family:var(--display);font-size:14px;break-inside:avoid}
+.flow .step{flex:1 1 110px;background:var(--chip);border-radius:6px;padding:8px 10px;display:flex;flex-direction:column;justify-content:center}
+.flow .step small{display:block;color:var(--muted);font-size:12px;line-height:1.3;margin-top:2px}
+.flow .step .n{font-family:var(--mono);font-size:11px;color:var(--accent)}
+.flow .arr{align-self:center;color:var(--muted)}
+.flow.eq .step{text-align:center;flex:1 1 90px;font-weight:700}
+.flow.eq .arr{font-size:20px;font-weight:700;color:var(--ink)}
+
+/* tablas */
+.tbl{overflow-x:auto;margin:16px 0}
+table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.45}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--rule)}
+th{font-family:var(--display);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--ink)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr{break-inside:avoid}
+
+/* línea de tiempo */
+.timeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;margin:18px 0;border-top:2px solid var(--ink);break-inside:avoid}
+.timeline div{padding:10px 12px 4px 0;position:relative}
+.timeline div::before{content:"";position:absolute;top:-7px;left:0;width:12px;height:12px;border-radius:50%;background:var(--sheet);border:2px solid var(--ink)}
+.timeline b{font-family:var(--display);font-size:22px;display:block;margin-top:4px}
+.timeline span{font-size:14px;color:var(--muted);display:block;line-height:1.4}
+
+/* gráfico MRE */
+.chart{margin:18px 0;break-inside:avoid}
+.bars{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:end;height:180px;border-bottom:1px solid var(--ink);position:relative}
+.bar{background:var(--accent);border-radius:3px 3px 0 0;position:relative;min-height:2px}
+.bar span{position:absolute;top:-22px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:12px;color:var(--ink)}
+.gridline{position:absolute;left:0;right:0;border-top:1px dashed var(--rule);font-family:var(--mono);font-size:10px;color:var(--muted)}
+.gridline i{position:absolute;right:0;top:-14px;font-style:normal}
+.years{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;text-align:center;font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:4px}
+
+/* PHVA */
+.phva{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0}
+.phva .card{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start}
+.phva .letter{font-family:var(--display);font-weight:800;font-size:30px;line-height:1;width:44px;height:44px;border-radius:8px;background:var(--ink);color:var(--sheet);display:grid;place-items:center}
+
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:16px 0}
+.vs{border-radius:8px;padding:12px 16px;break-inside:avoid}
+.vs.no{background:var(--chip)}
+.vs.si{background:var(--accent-soft)}
+.vs b{font-family:var(--display);letter-spacing:.1em;font-size:12px;text-transform:uppercase;display:block}
+.vs.no b{color:var(--bad)}.vs.si b{color:var(--accent)}
+
+dl.gloss{display:grid;grid-template-columns:minmax(140px,220px) 1fr;gap:0;margin:16px 0}
+dl.gloss dt{font-family:var(--display);font-weight:700;padding:9px 12px 9px 0;border-bottom:1px solid var(--rule)}
+dl.gloss dd{margin:0;padding:9px 0;border-bottom:1px solid var(--rule);font-size:16px}
+@media (max-width:560px){dl.gloss{grid-template-columns:1fr}dl.gloss dt{border-bottom:0;padding-bottom:0}}
+
+.keys{counter-reset:k;list-style:none;padding:0}
+.keys li{counter-increment:k;display:grid;grid-template-columns:30px 1fr;gap:8px;padding:6px 0;border-bottom:1px solid var(--rule)}
+.keys li::before{content:counter(k);font-family:var(--mono);font-size:13px;color:var(--accent);padding-top:3px}
+
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:18px 0}
+.summary section{border-top:3px solid var(--accent);padding-top:10px;break-inside:avoid}
+.summary h4{margin-top:0}
+.summary ul{padding-left:18px;font-size:15px;line-height:1.5}
+
+.cta{margin-top:40px;padding:22px;border-radius:10px;background:var(--ink);color:var(--sheet);display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+.cta p{margin:0;max-width:52ch}
+.cta a{background:var(--sheet);color:var(--ink);font-family:var(--display);font-weight:700;text-decoration:none;padding:10px 18px;border-radius:8px}
+footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--display)}
+
+/* impresión A4 */
+@page{size:A4;margin:16mm 15mm 18mm}
+@media print{
+  :root,:root[data-theme="dark"]{
+    color-scheme:light;
+    --bg:#fff;--sheet:#fff;--ink:#111;--muted:#444;--rule:#bbb;--accent:#1F6F5C;--accent-soft:#E8F3EE;--warn:#8A5610;--warn-soft:#FBF1E0;--chip:#F0F2F0;
+  }
+  body{padding:0;font-size:11pt;line-height:1.45;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{display:block;max-width:none}
+  nav.toc,.print-bar,.cta,.no-print{display:none!important}
+  main.sheet{border:0;padding:0;border-radius:0}
+  h2{break-before:page;margin-top:0;font-size:22pt}
+  h2.keep{break-before:auto;margin-top:28px}
+  h3{font-size:14pt;break-after:avoid}
+  h4{break-after:avoid}
+  p,li{orphans:3;widows:3}
+  a{color:inherit;text-decoration:none}
+  .grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .box,.card,.flow,.timeline,.chart,table,.vs,.summary section{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav class="toc" aria-label="Índice">
+  <div class="lbl">Contenido</div>
+  <ol>
+    <li><a href="#resumen">Resumen en una página</a></li>
+    <li><a href="#clase1">Clase 1 · Introducción</a></li>
+    <li><a class="sub" href="#c1-que-es">Qué es el control interno</a></li>
+    <li><a class="sub" href="#c1-evolucion">Evolución del MECIP</a></li>
+    <li><a class="sub" href="#c1-mre">Calificaciones MRE</a></li>
+    <li><a href="#clase2">Clase 2 · Generalidades del SCI</a></li>
+    <li><a class="sub" href="#c2-phva">Modelo PHVA</a></li>
+    <li><a class="sub" href="#c2-principios">Principios</a></li>
+    <li><a class="sub" href="#c2-caracteristicas">Características</a></li>
+    <li><a class="sub" href="#c2-responsabilidades">Responsabilidades</a></li>
+    <li><a href="#clase3">Clase 3 · Enfoque por procesos</a></li>
+    <li><a class="sub" href="#c3-proceso">Qué es un proceso</a></li>
+    <li><a class="sub" href="#c3-mapa">Mapa de procesos</a></li>
+    <li><a class="sub" href="#c3-phva">PHVA en procesos</a></li>
+    <li><a href="#glosario">Glosario</a></li>
+    <li><a href="#trampas">Confusiones frecuentes</a></li>
+  </ol>
+  <a class="exam" href="examen.html">Ir al examen de práctica →</a>
+</nav>
+
+<main class="sheet">
+
+<header>
+  <div class="eyebrow">Curso de Perfeccionamiento · Control de la Gestión Pública</div>
+  <h1>Guía de estudio<br>Clases 1, 2 y 3</h1>
+  <p class="lead">Control interno, Sistema de Control Interno (SCI) y enfoque basado en procesos, según el MECIP 2015. Cada tema trae la definición de la clase y una explicación en palabras simples.</p>
+  <div class="meta"><span>Unidad I · Introducción</span><span>Unidad II · Generalidades del SCI</span><span>Unidad III · Enfoque basado en procesos</span></div>
+  <div class="print-bar">
+    <span>Para guardar en PDF A4: <kbd>Ctrl</kbd> + <kbd>P</kbd> (en Mac <kbd>⌘</kbd> + <kbd>P</kbd>) → Destino «Guardar como PDF» → Tamaño A4.</span>
+    <button type="button" id="btnPrint" hidden>Imprimir / Guardar PDF</button>
+  </div>
+</header>
+
+<!-- ============ RESUMEN ============ -->
+<h2 id="resumen" class="keep"><span class="eyebrow">Para repasar rápido</span>Resumen en una página</h2>
+<div class="summary">
+  <section>
+    <h4>Clase 1 · Control de la gestión pública</h4>
+    <ul>
+      <li>El <b>control interno</b> es un conjunto de normas, principios, acciones y procesos que realizan autoridades, administración y funcionarios.</li>
+      <li>Es un <b>medio</b> (no un fin) para una función del Estado <b>íntegra, eficaz y transparente</b>.</li>
+      <li>Es la <b>primera línea de defensa</b> de los activos. Su enfoque es preventivo, integral y continuo.</li>
+      <li>Historia: prácticas heterogéneas → <b>MECIP 2008</b> → <b>MECIP 2015</b> → <b>Res. CGR N.° 377/2016</b> (adopta la NRM).</li>
+      <li>MECIP 2015 define el <b>«qué»</b> controlar; cada institución decide el <b>«cómo»</b>. Se basa en <b>procesos</b> y <b>riesgos</b>.</li>
+      <li>2008: 3 componentes corporativos, 9 componentes, 29 estándares. 2015: 5 componentes, 16 principios, 9 elementos.</li>
+    </ul>
+  </section>
+  <section>
+    <h4>Clase 2 · Generalidades del SCI</h4>
+    <ul>
+      <li>El SCI <b>no es</b> un conjunto de controles aislados; <b>es</b> un sistema integrado a la gestión.</li>
+      <li>Comprende a <b>toda la organización</b> y funciona con el ciclo <b>PHVA</b>.</li>
+      <li>Da <b>seguridad razonable</b>, no absoluta: reduce la posibilidad de errores, no los elimina.</li>
+      <li>Principios: <b>autocontrol</b> (la persona), <b>autorregulación</b> (las reglas propias), <b>autogestión</b> (la institución se organiza y evalúa).</li>
+      <li>Características: integral, permanente, dinámico, orientado a objetivos, participativo, sujeto a evaluación y mejora.</li>
+      <li>Responsabilidad <b>institucional, compartida y diferenciada</b>. Auditoría Interna evalúa con independencia.</li>
+    </ul>
+  </section>
+  <section>
+    <h4>Clase 3 · Enfoque basado en procesos</h4>
+    <ul>
+      <li>El control va <b>dentro del proceso</b>, no al final.</li>
+      <li><b>Proceso = entrada + transformación → salida</b> para un destinatario.</li>
+      <li>Cadena de valor: necesidad → entrada → actividades → controles → salida/valor.</li>
+      <li>Tres familias: <b>estratégicos</b>, <b>misionales</b> y <b>de apoyo</b>.</li>
+      <li>Niveles: proceso → subproceso → actividad.</li>
+      <li>La estructura <b>organiza</b>; el proceso <b>conecta</b>. Mapa de procesos ≠ organigrama.</li>
+    </ul>
+  </section>
+</div>
+
+<!-- ============ CLASE 1 ============ -->
+<h2 id="clase1"><span class="eyebrow">Clase 1 · Unidad I</span>Introducción al Control de la Gestión Pública</h2>
+<p>Objetivos de la clase: <b>comprender</b> el concepto de control interno, <b>identificar</b> la evolución del MECIP en Paraguay y <b>reconocer</b> el marco normativo que implementa el SCI.</p>
+
+<div class="box">
+  <h4 style="margin-top:0">Plan del curso (9 unidades)</h4>
+  <div class="flow">
+    <div class="step"><span class="n">U1</span>Introducción</div>
+    <div class="step"><span class="n">U2</span>Generalidades del SCI</div>
+    <div class="step"><span class="n">U3</span>Enfoque en procesos</div>
+    <div class="step"><span class="n">U4</span>Enfoque en riesgos</div>
+    <div class="step"><span class="n">U5</span>Ambiente de Control</div>
+    <div class="step"><span class="n">U6</span>Control de la Planificación</div>
+    <div class="step"><span class="n">U7</span>Control de la Implementación</div>
+    <div class="step"><span class="n">U8</span>Control de Evaluación</div>
+    <div class="step"><span class="n">U9</span>Control para la Mejora</div>
+  </div>
+  <p style="font-size:15px">Las unidades 5 a 9 son los <b>5 componentes del MECIP 2015</b>. Esta guía cubre las unidades 1 a 3.</p>
+</div>
+
+<h3 id="c1-que-es">¿Qué es el control interno?</h3>
+<div class="box def"><span class="tag">Definición de la clase</span>
+<p>Conjunto de normas, principios, fundamentos, procesos, procedimientos, acciones, mecanismos, técnicas e instrumentos de control que, ordenados, relacionados entre sí y unidos a las personas que conforman una institución pública, se constituye en un medio para lograr una función administrativa del Estado íntegra, eficaz y transparente, apoyando el cumplimiento de sus objetivos institucionales y contribuyendo al logro de la finalidad social del Estado.</p></div>
+<div class="box simple"><span class="tag">En palabras simples</span>
+<p>El control interno son <b>las reglas y los hábitos de trabajo</b> que una institución pública usa para asegurarse de que las cosas se hagan bien, a tiempo y de forma honesta. No es un área ni un papel: es la manera en que todos trabajan.</p></div>
+
+<p>La definición tiene cuatro piezas. Conviene recordarlas así:</p>
+<div class="grid">
+  <div class="card"><b>Sistema</b><p>Normas, principios, procesos, procedimientos, mecanismos e instrumentos ordenados entre sí.</p></div>
+  <div class="card"><b>Personas</b><p>Está unido a las personas de la institución. Sin ellas no funciona.</p></div>
+  <div class="card"><b>Medio</b><p>Sirve para una función del Estado <b>íntegra, eficaz y transparente</b>.</p></div>
+  <div class="card"><b>Objetivos</b><p>Apoya los objetivos institucionales y la <b>finalidad social del Estado</b>.</p></div>
+</div>
+
+<h3>¿Para qué sirve?</h3>
+<p>La clase lo resume en tres palabras: <b>prevención, resultados y continuidad</b>.</p>
+<div class="grid">
+  <div class="card"><b>Resultados</b><p>Ayuda a obtener los resultados deseados administrando bien los recursos públicos.</p></div>
+  <div class="card"><b>Continuidad</b><p>Ayuda a la Dirección a alcanzar los objetivos <b>sobre una base continua</b>, no de vez en cuando.</p></div>
+  <div class="card"><b>Prevención</b><p>Es la <b>primera línea de defensa</b> en la protección de activos (bienes, dinero, información).</p></div>
+</div>
+
+<h3>El control forma parte del trabajo diario</h3>
+<p>No es una revisión ocasional ni una tarea paralela. Está presente en los procesos, las decisiones y las responsabilidades de cada área, y sigue este ciclo:</p>
+<div class="flow">
+  <div class="step"><span class="n">1</span>Planificar</div><span class="arr">›</span>
+  <div class="step"><span class="n">2</span>Ejecutar</div><span class="arr">›</span>
+  <div class="step"><span class="n">3</span>Verificar</div><span class="arr">›</span>
+  <div class="step"><span class="n">4</span>Mejorar</div>
+</div>
+
+<h3>Una responsabilidad compartida</h3>
+<p>La <b>Máxima Autoridad Institucional y el Equipo Directivo</b> establecen y gestionan el Sistema de Control Interno. Cada persona participa desde sus funciones:</p>
+<div class="flow">
+  <div class="step">Cumplir funciones</div>
+  <div class="step">Aplicar procedimientos</div>
+  <div class="step">Comunicar riesgos</div>
+  <div class="step">Actuar con ética</div>
+</div>
+
+<h3 id="c1-evolucion">Evolución del control interno en Paraguay</h3>
+<p>Del MECIP 2008 al MECIP 2015 hubo un proceso de aprendizaje y fortalecimiento.</p>
+<div class="timeline">
+  <div><b>Antes</b><span>Prácticas heterogéneas: cada institución controlaba a su manera.</span></div>
+  <div><b>2008</b><span>MECIP 2008: primer modelo estandarizado.</span></div>
+  <div><b>2015</b><span>MECIP 2015: procesos, riesgos y mejora continua.</span></div>
+  <div><b>2016</b><span>Resolución CGR N.° 377/2016.</span></div>
+</div>
+<div class="box simple"><span class="tag">¿Qué es MECIP?</span>
+<p><b>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay.</b> Es el «molde» común que siguen las instituciones públicas para organizar su control interno.</p></div>
+
+<h4>MECIP 2008: aportes y desafíos</h4>
+<div class="two">
+  <div class="vs si"><b>Aportes</b><ul><li>Criterios comunes</li><li>Responsabilidades definidas</li><li>Procesos documentados</li></ul></div>
+  <div class="vs no"><b>Desafíos</b><ul><li>Complejidad de requisitos</li><li>Exceso documental</li><li>Controles desactualizados</li></ul></div>
+</div>
+<p>La experiencia acumulada permitió <b>simplificar</b> la aplicación sin perder la finalidad del sistema.</p>
+
+<h4>¿Por qué fue necesario actualizar el modelo?</h4>
+<p>Porque las instituciones cambian y los controles deben acompañarlas: <b>nuevas tecnologías, cambios normativos, nuevas funciones y procesos más complejos</b>.</p>
+<div class="box trap"><span class="tag">Qué pasa si no se revisan los controles</span>
+<p>Aparecen <b>duplicidades, retrasos, criterios diferentes y riesgos sin respuesta</b>.</p></div>
+
+<h4>Resolución CGR N.° 377/2016</h4>
+<div class="two">
+  <div class="card"><b>La Resolución</b><p>Adopta oficialmente la <b>Norma de Requisitos Mínimos (NRM)</b> para un SCI. La NRM define los requerimientos básicos para un sistema efectivo de control interno.</p></div>
+  <div class="card"><b>+ Manual MECIP 2015</b><p>Desarrolla la <b>orientación técnica y metodológica</b>: explica cómo aplicar la norma.</p></div>
+</div>
+<p class="box simple" style="max-width:none"><span class="tag">En palabras simples</span>La Contraloría General de la República (CGR) dijo en 2016: «estos son los requisitos mínimos obligatorios» (NRM), y el Manual es la guía práctica para cumplirlos.</p>
+
+<h4>¿En qué se enfoca el MECIP 2015?</h4>
+<ul>
+  <li>Facilitar la implementación y consolidación.</li>
+  <li>Adaptar el modelo a las necesidades de cada institución.</li>
+  <li>Simplificar la aplicación.</li>
+  <li>Definir el <b>«qué»</b> controlar, dejando a las instituciones el <b>«cómo»</b> implementar.</li>
+  <li>Definir los requerimientos mínimos básicos.</li>
+  <li>Profundizar el enfoque basado en <b>procesos</b> y en <b>riesgos</b>.</li>
+</ul>
+<p>La nueva estructura se basa principalmente en <b>la Gestión por Procesos</b> y <b>la Administración de Riesgos</b>.</p>
+
+<h4>Modelo 2008 vs. Modelo 2015</h4>
+<div class="tbl"><table>
+  <thead><tr><th>Modelo</th><th class="num">Nivel 1</th><th class="num">Nivel 2</th><th class="num">Nivel 3</th></tr></thead>
+  <tbody>
+    <tr><td><b>MECIP 2008</b></td><td class="num">3 componentes corporativos</td><td class="num">9 componentes</td><td class="num">29 estándares</td></tr>
+    <tr><td><b>MECIP 2015</b></td><td class="num">5 componentes</td><td class="num">16 principios</td><td class="num">9 elementos</td></tr>
+  </tbody>
+</table></div>
+<div class="box simple"><span class="tag">Truco para memorizar</span><p><b>2008 → 3 · 9 · 29</b> (termina en 9 dos veces). <b>2015 → 5 · 16 · 9</b> (empieza con el 5 del año).</p></div>
+
+<p>Algunas equivalencias de requisitos entre ambos modelos (tabla de la clase):</p>
+<div class="tbl"><table>
+  <thead><tr><th>MECIP 2008</th><th>MECIP 2015</th></tr></thead>
+  <tbody>
+    <tr><td><span class="code">---</span> Acta de compromiso</td><td><span class="code">I.A.1</span> Compromisos de la Alta Dirección · <span class="code">I.A.1.1</span> Política de Control Interno</td></tr>
+    <tr><td><span class="code">1.2.2</span> Modelo de gestión por procesos</td><td><span class="code">II.B.2</span> Gestión por Procesos</td></tr>
+    <tr><td><span class="code">1.3.1–1.3.4</span> Contexto estratégico, identificación, análisis y valoración de riesgos</td><td><span class="code">II.B.4</span> Identificación y evaluación de riesgos (se unifican en uno)</td></tr>
+    <tr><td><span class="code">3.1.1–3.1.2</span> Autoevaluación del control y de gestión</td><td><span class="code">II.A.1</span> Introducción: la autoevaluación se integra en otros requisitos</td></tr>
+    <tr><td><span class="code">3.2.2</span> Auditoría interna</td><td><span class="code">II.D.2</span> Auditoría interna</td></tr>
+    <tr><td><span class="code">---</span> (no existía)</td><td><span class="code">II.E.1</span> Análisis crítico del sistema de control interno</td></tr>
+    <tr><td><span class="code">3.3.1–3.3.3</span> Planes de mejoramiento institucional, funcional e individual</td><td><span class="code">II.E.2</span> Mejora continua (se unifican en uno)</td></tr>
+    <tr><td><span class="code">2.1.5</span> Manual de operación</td><td><span class="code">---</span> (desaparece)</td></tr>
+  </tbody>
+</table></div>
+<p style="font-size:15px;color:var(--muted)">Lo que muestra la tabla: el 2015 <b>junta</b> varios requisitos del 2008 en uno solo y elimina documentos, en línea con la idea de simplificar.</p>
+
+<h3 id="c1-mre">Últimas calificaciones del MRE</h3>
+<p>Avance promedio en los últimos años y escala de criterios:</p>
+<div class="two">
+  <div class="chart" role="img" aria-label="Calificaciones: 2019 2,61; 2020 2,05; 2021 2,02; 2022 2,04; 2023 2,23; 2024 2,59, en escala de 0 a 3">
+    <div class="bars">
+      <div class="gridline" style="bottom:33.33%"><i>1</i></div>
+      <div class="gridline" style="bottom:66.67%"><i>2</i></div>
+      <div class="bar" style="height:87%"><span>2,61</span></div>
+      <div class="bar" style="height:68.33%"><span>2,05</span></div>
+      <div class="bar" style="height:67.33%"><span>2,02</span></div>
+      <div class="bar" style="height:68%"><span>2,04</span></div>
+      <div class="bar" style="height:74.33%"><span>2,23</span></div>
+      <div class="bar" style="height:86.33%"><span>2,59</span></div>
+    </div>
+    <div class="years"><span>2019</span><span>2020</span><span>2021</span><span>2022</span><span>2023</span><span>2024</span></div>
+  </div>
+  <div class="tbl" style="margin:0"><table>
+    <thead><tr><th>Nivel</th><th class="num">Puntaje</th></tr></thead>
+    <tbody>
+      <tr><td>Excelencia</td><td class="num">5</td></tr>
+      <tr><td>Optimizado</td><td class="num">4 a 4,99</td></tr>
+      <tr><td>Gestionado</td><td class="num">3 a 3,99</td></tr>
+      <tr><td><b>Diseñado</b></td><td class="num"><b>2 a 2,99</b></td></tr>
+      <tr><td>Inicial</td><td class="num">1 a 1,99</td></tr>
+      <tr><td>Deficiente</td><td class="num">0 a 0,99</td></tr>
+    </tbody>
+  </table></div>
+</div>
+<p>Todas las calificaciones de 2019 a 2024 están en el nivel <b>Diseñado</b> (2 a 2,99). La más alta fue <b>2019 (2,61)</b>, la más baja <b>2021 (2,02)</b>, y desde 2022 viene subiendo hasta <b>2,59 en 2024</b>.</p>
+
+<h3>Ideas clave de la Clase 1</h3>
+<ol class="keys">
+  <li>El control interno apoya los objetivos institucionales.</li>
+  <li>Forma parte de las actividades cotidianas.</li>
+  <li>Su enfoque es preventivo, integral y continuo.</li>
+  <li>La responsabilidad es compartida por toda la organización.</li>
+  <li>MECIP 2015 integra procesos, riesgos y mejora continua.</li>
+</ol>
+<div class="box simple"><span class="tag">Frase de cierre</span><p>El control interno <b>no es un fin en sí mismo</b>. Es un medio para mejorar la gestión pública.</p></div>
+
+<!-- ============ CLASE 2 ============ -->
+<h2 id="clase2"><span class="eyebrow">Clase 2 · Unidad II</span>Generalidades del Sistema de Control Interno (SCI)</h2>
+<p>Objetivos: <b>comprender</b> qué es el SCI, <b>identificar</b> sus objetivos y características, y <b>reconocer</b> principios y responsabilidades.</p>
+
+<div class="two">
+  <div class="vs no"><b>El SCI no es</b><p style="margin:4px 0 0">Un conjunto de controles aislados.</p></div>
+  <div class="vs si"><b>El SCI sí es</b><p style="margin:4px 0 0">Un sistema integrado a la gestión institucional.</p></div>
+</div>
+
+<h3>¿Qué es el SCI?</h3>
+<div class="box def"><span class="tag">Definición de la clase</span>
+<p>Conjunto organizado de planes, métodos, políticas, procedimientos, prácticas, recursos y acciones que interactúan entre sí. Forma parte de la gestión institucional, contribuye al cumplimiento de la misión y de los objetivos institucionales y comprende a toda la organización.</p></div>
+<div class="grid">
+  <div class="card"><b>Sistema</b><p>Políticas, procesos, procedimientos, prácticas, recursos y acciones organizados.</p></div>
+  <div class="card"><b>Personas</b><p>Participan en toda la organización.</p></div>
+  <div class="card"><b>Gestión</b><p>Forma parte de la gestión institucional.</p></div>
+  <div class="card"><b>Resultados</b><p>Contribuye a la misión y a los objetivos.</p></div>
+</div>
+<div class="box simple"><span class="tag">En palabras simples</span><p>Un solo control (por ejemplo, una firma) no es un sistema. El SCI es cuando <b>todos los controles están conectados</b> entre sí y con el trabajo diario, como los engranajes de un reloj.</p></div>
+
+<h3 id="c2-phva">El modelo del SCI: ciclo PHVA</h3>
+<p>PHVA significa <b>Planificar, Hacer, Verificar, Actuar</b>. Cada fase del ciclo se relaciona con un componente del MECIP 2015; el <b>Ambiente de Control</b> acompaña todo el ciclo.</p>
+<div class="phva">
+  <div class="card"><span class="letter">P</span><div><b>Planificar → Control de la Planificación</b><p>Establecer los objetivos y procesos necesarios para conseguir resultados según las políticas y los requisitos (incluidos los legales), e <b>identificar los riesgos</b> para definir los controles operacionales.</p></div></div>
+  <div class="card"><span class="letter">H</span><div><b>Hacer → Control de la Implementación</b><p>Implementar los procesos y controles definidos.</p></div></div>
+  <div class="card"><span class="letter">V</span><div><b>Verificar → Control de Evaluación</b><p>Hacer el <b>seguimiento y la medición</b> de la efectividad de los controles e informar los resultados.</p></div></div>
+  <div class="card"><span class="letter">A</span><div><b>Actuar → Control para la Mejora</b><p>Tomar acciones para <b>mejorar continuamente</b> el desempeño de los controles.</p></div></div>
+</div>
+
+<h4>Ejemplo: gestión de una solicitud</h4>
+<div class="flow">
+  <div class="step"><span class="n">1 · Registrar</span>Se recibe y registra</div>
+  <div class="step"><span class="n">2 · Verificar</span>Tiene la documentación requerida</div>
+  <div class="step"><span class="n">3 · Controlar</span>Se deriva a la dependencia competente</div>
+  <div class="step"><span class="n">4 · Revisar</span>El responsable analiza</div>
+  <div class="step"><span class="n">5 · Verificar</span>Se emite la respuesta</div>
+  <div class="step"><span class="n">6 · Archivar</span>Se registra y archiva el resultado</div>
+</div>
+<p><b>El control aparece en cada una de estas etapas</b>, no solo al final.</p>
+
+<h3>Objetivos del SCI</h3>
+<div class="box trap"><span class="tag">Pregunta clave de la clase</span><p>¿Un SCI eficaz significa que jamás ocurrirá un error? <b>No.</b> El SCI da <b>seguridad razonable</b>, no absoluta.</p></div>
+<div class="grid">
+  <div class="card"><b>Seguridad razonable</b><p>No elimina todos los errores; <b>reduce razonablemente</b> la posibilidad de que afecten los objetivos.</p></div>
+  <div class="card"><b>Objetivos</b><p>Los controles deben estar vinculados con lo que la institución pretende lograr.</p></div>
+  <div class="card"><b>Recursos públicos</b><p>Contribuye a su administración efectiva y a la protección de los activos.</p></div>
+</div>
+
+<h3 id="c2-principios">Principios que sustentan el SCI</h3>
+<p>Son los tres «auto», fundamentos esenciales y pilares de un control efectivo. La clave es <b>quién</b> actúa en cada uno.</p>
+<div class="grid">
+  <div class="card"><b>Autocontrol · la persona</b><p>Cada funcionario controla su propio trabajo, identifica desviaciones y actúa a tiempo dentro de sus responsabilidades.</p><p class="ex">Ej.: reviso mi planilla antes de enviarla y corrijo un monto mal cargado.</p></div>
+  <div class="card"><b>Autorregulación · las reglas</b><p>La institución establece y aplica sus propios métodos, normas y procedimientos para regular su actuación, <b>dentro del marco jurídico</b>.</p><p class="ex">Ej.: la institución aprueba su propio procedimiento de compras respetando la ley.</p></div>
+  <div class="card"><b>Autogestión · la institución</b><p>Capacidad institucional para interpretar, coordinar, aplicar y evaluar de manera efectiva sus funciones, orientándolas a la misión y los objetivos.</p><p class="ex">Ej.: la institución coordina sus áreas y evalúa si está cumpliendo su misión.</p></div>
+</div>
+
+<h3 id="c2-caracteristicas">Características del SCI</h3>
+<p>Un sistema eficaz debe ser:</p>
+<div class="grid">
+  <div class="card"><b>Integral</b><p>Abarca los distintos procesos y actividades de la organización.</p></div>
+  <div class="card"><b>Permanente</b><p>No se hace en ciertos momentos del año; acompaña continuamente la gestión.</p></div>
+  <div class="card"><b>Dinámico</b><p>Se adapta a los cambios que vive la institución.</p></div>
+  <div class="card"><b>Orientado a objetivos</b><p>Se relaciona con lo que la institución quiere lograr.</p></div>
+  <div class="card"><b>Participativo</b><p>Intervienen autoridades, directivos y funcionarios según sus responsabilidades.</p></div>
+  <div class="card"><b>Sujeto a evaluación y mejora</b><p>Se revisa para encontrar oportunidades de fortalecimiento.</p></div>
+</div>
+
+<h4>Ejemplo: un control puede quedar desactualizado</h4>
+<div class="tbl"><table>
+  <thead><tr><th>Cambio</th><th>Consecuencia</th></tr></thead>
+  <tbody>
+    <tr><td>Se incorpora un nuevo sistema informático</td><td>Cambia la forma de trabajar</td></tr>
+    <tr><td>Cambia la estructura organizacional</td><td>Cambian roles y procesos; se modifican responsabilidades</td></tr>
+    <tr><td>Cambios normativos</td><td>Se actualizan las normas aplicables</td></tr>
+  </tbody>
+</table></div>
+<p><b>Resultado:</b> el control debe revisarse. Si la institución sigue aplicando exactamente el mismo procedimiento sin analizar si sigue siendo adecuado, el control puede dejar de cumplir su finalidad. Esto se relaciona con la característica <b>dinámico</b>.</p>
+
+<h3 id="c2-responsabilidades">Responsabilidades</h3>
+<p>La responsabilidad es <b>institucional, compartida y diferenciada</b>: todos participan, pero cada uno con un papel distinto.</p>
+<div class="tbl"><table>
+  <thead><tr><th>Quién</th><th>En una frase</th><th>Qué hace</th></tr></thead>
+  <tbody>
+    <tr><td><b>Máxima Autoridad y Equipo Directivo</b></td><td>Conducen</td><td>Conducen el SCI, establecen objetivos y evalúan su funcionamiento.</td></tr>
+    <tr><td><b>Directivos</b></td><td>Gestionan procesos</td><td>Incorporan el control a los procesos a su cargo, supervisan y promueven mejoras.</td></tr>
+    <tr><td><b>Servidores</b></td><td>Aplican controles</td><td>Cumplen funciones, aplican procedimientos, observan controles y comunican situaciones relevantes.</td></tr>
+    <tr><td><b>Auditoría Interna</b></td><td>Evalúa con independencia</td><td>Cumple una función específica de evaluación independiente.</td></tr>
+    <tr><td><b>Todas las áreas</b></td><td>Comunican y mejoran</td><td>Comunican riesgos y mejoran.</td></tr>
+  </tbody>
+</table></div>
+<div class="box def"><span class="tag">Cita de la clase</span><p>«El control interno no es responsabilidad exclusiva de una dependencia; requiere la participación de toda la organización.»</p></div>
+
+<h3>Ideas clave de la Clase 2</h3>
+<ol class="keys">
+  <li>El SCI está integrado a la gestión institucional.</li>
+  <li>Busca contribuir al logro de objetivos y administrar recursos públicos.</li>
+  <li>Se sustenta en autocontrol, autorregulación y autogestión.</li>
+  <li>Debe ser integral, permanente, dinámico, participativo y mejorable.</li>
+  <li>Las responsabilidades son compartidas y diferenciadas.</li>
+</ol>
+
+<!-- ============ CLASE 3 ============ -->
+<h2 id="clase3"><span class="eyebrow">Clase 3 · Unidad III</span>Enfoque basado en procesos</h2>
+<p>Del control integrado a la gestión por procesos. Objetivos: <b>explicar</b> por qué los procesos fortalecen la gestión y el control, <b>reconocer</b> entradas, actividades, salidas e interacciones, y <b>aplicar</b> el ciclo PHVA a un proceso institucional.</p>
+
+<h3>El control interno se integra a los procesos</h3>
+<div class="two">
+  <div class="vs no"><b>No: al final</b><p style="margin:4px 0 0">Revisar tareas aisladas cuando el resultado ya se produjo.</p></div>
+  <div class="vs si"><b>Sí: dentro del proceso</b><p style="margin:4px 0 0">Incorporar controles e interacciones a lo largo del recorrido.</p></div>
+</div>
+<p>El proceso conecta <b>entregas, controles y responsabilidades</b>. Flujo → Control → Resultado.</p>
+
+<h4>La estructura organiza, el proceso conecta</h4>
+<div class="flow">
+  <div class="step">Mesa de Entrada</div><span class="arr">›</span>
+  <div class="step">Área Técnica</div><span class="arr">›</span>
+  <div class="step">Asesoría Jurídica</div><span class="arr">›</span>
+  <div class="step">Dirección</div>
+</div>
+<p>Un mismo resultado atraviesa varias dependencias. El enfoque por procesos conecta entregas, decisiones, controles y responsabilidades entre ellas.</p>
+<div class="box simple"><span class="tag">En palabras simples</span><p>El organigrama dice <b>quién manda a quién</b>. El proceso dice <b>cómo viaja el trabajo</b> de un escritorio a otro hasta llegar al ciudadano.</p></div>
+
+<h4>Aportes del enfoque por procesos</h4>
+<p>La gestión se orienta a resultados. El enfoque por procesos aporta: <b>requisitos, interacciones, control eficaz, valor público y mejora continua</b>.</p>
+
+<h3 id="c3-proceso">¿Qué es un proceso?</h3>
+<div class="flow eq">
+  <div class="step">Entrada</div><span class="arr">+</span>
+  <div class="step">Transformación</div><span class="arr">=</span>
+  <div class="step">Salida</div><span class="arr">→</span>
+  <div class="step">Destinatario</div>
+</div>
+<div class="box simple"><span class="tag">En palabras simples</span><p>Algo entra (una solicitud, datos, documentos), se trabaja (se analiza, se decide) y sale un resultado que le sirve a alguien (el ciudadano u otra área).</p></div>
+
+<h4>Cadena de valor: de la necesidad al resultado</h4>
+<div class="flow">
+  <div class="step"><span class="n">1</span>Necesidad</div><span class="arr">›</span>
+  <div class="step"><span class="n">2</span>Entrada</div><span class="arr">›</span>
+  <div class="step"><span class="n">3</span>Actividades</div><span class="arr">›</span>
+  <div class="step"><span class="n">4</span>Controles</div><span class="arr">›</span>
+  <div class="step"><span class="n">5</span>Salida / Valor</div>
+</div>
+<ul>
+  <li><b>Agregar valor</b> es convertir una necesidad en un resultado <b>útil, oportuno y confiable</b>.</li>
+  <li>Una <b>actividad de control agrega valor</b> cuando protege <b>legalidad, calidad, integridad o trazabilidad</b>.</li>
+</ul>
+<div class="box simple"><span class="tag">Trazabilidad</span><p>Poder seguir el rastro de un trámite: saber quién hizo qué, cuándo y con qué documento.</p></div>
+
+<h4>Cambio cultural</h4>
+<p>Supone el paso de una <b>visión administrativa</b> a una <b>visión gestora</b>. El eje fundamental de la administración pública pasa a ser la <b>ciudadanía</b> y la <b>prestación del servicio público</b>.</p>
+
+<h3 id="c3-mapa">Mapa e interacción de procesos</h3>
+<p>Tres grandes familias o <b>macroprocesos</b>:</p>
+<div class="grid">
+  <div class="card"><b>Estratégicos</b><p>Orientan, planifican, dirigen y dan seguimiento a la gestión.</p><p class="ex">Ej.: planificación institucional, seguimiento de indicadores.</p></div>
+  <div class="card"><b>Misionales</b><p>Producen resultados vinculados con el <b>mandato institucional</b> (la razón de ser).</p><p class="ex">Ej.: en un hospital, la atención a pacientes.</p></div>
+  <div class="card"><b>De apoyo</b><p>Proveen recursos y condiciones para que los demás procesos operen.</p><p class="ex">Ej.: talento humano, compras, informática.</p></div>
+</div>
+<p>La clasificación <b>depende del mandato y de la naturaleza de cada institución</b>: lo que es misional en una puede ser de apoyo en otra.</p>
+
+<h4>Niveles del proceso</h4>
+<div class="flow">
+  <div class="step"><b>Proceso</b><small>Articula actividades hacia un objetivo y una salida.</small></div><span class="arr">›</span>
+  <div class="step"><b>Subproceso</b><small>Parte definida que facilita el análisis y el control.</small></div><span class="arr">›</span>
+  <div class="step"><b>Actividad</b><small>Acción o conjunto acotado de tareas.</small></div>
+</div>
+
+<h4>Mapa de procesos ≠ organigrama</h4>
+<div class="two">
+  <div class="card"><b>Organigrama</b><p>Unidades y relaciones de autoridad.</p></div>
+  <div class="card"><b>Mapa de procesos</b><p>Flujos, interacciones y contribución a la misión (entrada → proceso → resultado).</p></div>
+</div>
+
+<h3 id="c3-phva">Ciclo PHVA aplicado a los procesos</h3>
+<p>El PHVA conecta gestión, control y mejora. El ciclo vuelve a empezar con información y decisiones mejores. Cada fase responde una pregunta:</p>
+<div class="phva">
+  <div class="card"><span class="letter">P</span><div><b>Planificar</b><p>¿Qué queremos lograr y bajo qué requisitos?</p></div></div>
+  <div class="card"><span class="letter">H</span><div><b>Hacer</b><p>¿Cómo ejecutamos los procesos y controles definidos?</p></div></div>
+  <div class="card"><span class="letter">V</span><div><b>Verificar</b><p>¿Qué ocurrió y qué muestran el seguimiento y la medición?</p></div></div>
+  <div class="card"><span class="letter">A</span><div><b>Actuar</b><p>¿Qué debemos ajustar y volver a medir?</p></div></div>
+</div>
+
+<h4>Caso aplicado: respuestas fuera de plazo</h4>
+<p><b>Problema:</b> demora → devolución → reclamo.</p>
+<div class="tbl"><table>
+  <thead><tr><th>Fase</th><th>Respuesta PHVA</th></tr></thead>
+  <tbody>
+    <tr><td><b>P</b></td><td>Definir recorrido y plazos</td></tr>
+    <tr><td><b>H</b></td><td>Registrar y ejecutar</td></tr>
+    <tr><td><b>V</b></td><td>Comparar tiempos</td></tr>
+    <tr><td><b>A</b></td><td>Ajustar y volver a medir</td></tr>
+  </tbody>
+</table></div>
+<div class="box trap"><span class="tag">Condición</span><p>Mejorar <b>sin debilitar legalidad, calidad ni controles</b>. Eliminar controles para ganar velocidad no es una mejora.</p></div>
+<div class="box simple"><span class="tag">Frase de cierre</span><p>Gestionar por procesos <b>conecta el trabajo con el valor público</b>: necesidad → proceso → valor público.</p></div>
+
+<!-- ============ GLOSARIO ============ -->
+<h2 id="glosario"><span class="eyebrow">Términos explicados</span>Glosario en palabras simples</h2>
+<dl class="gloss">
+  <dt>Activos</dt><dd>Todo lo que la institución tiene y debe cuidar: dinero, bienes, equipos, información.</dd>
+  <dt>Actividad</dt><dd>El nivel más pequeño del proceso: una acción o un grupo acotado de tareas.</dd>
+  <dt>Agregar valor</dt><dd>Transformar una necesidad en un resultado útil, oportuno y confiable.</dd>
+  <dt>Ambiente de Control</dt><dd>Componente del MECIP 2015 que acompaña todo el ciclo PHVA. Se estudia en la Unidad 5.</dd>
+  <dt>Auditoría Interna</dt><dd>Área que evalúa el SCI con independencia. No es la dueña del control; cumple una función específica.</dd>
+  <dt>Autocontrol</dt><dd>Cada funcionario revisa su propio trabajo, detecta desvíos y los corrige a tiempo.</dd>
+  <dt>Autogestión</dt><dd>La institución sabe interpretar, coordinar, aplicar y evaluar sus funciones para cumplir su misión.</dd>
+  <dt>Autorregulación</dt><dd>La institución se pone sus propias reglas y procedimientos, siempre dentro de la ley.</dd>
+  <dt>Cadena de valor</dt><dd>El recorrido necesidad → entrada → actividades → controles → salida/valor.</dd>
+  <dt>CGR</dt><dd>Contraloría General de la República. Emitió la Resolución N.° 377/2016.</dd>
+  <dt>Control interno</dt><dd>Normas, principios, acciones y procesos que realizan autoridades y funcionarios para que la institución funcione de forma íntegra, eficaz y transparente.</dd>
+  <dt>Destinatario</dt><dd>Quien recibe la salida del proceso: el ciudadano u otra área.</dd>
+  <dt>Entrada</dt><dd>Lo que inicia un proceso: una solicitud, datos, documentos, requisitos.</dd>
+  <dt>Macroproceso</dt><dd>Las grandes familias de procesos: estratégicos, misionales y de apoyo.</dd>
+  <dt>Mandato institucional</dt><dd>Lo que la ley le encarga hacer a la institución; su razón de ser.</dd>
+  <dt>Mapa de procesos</dt><dd>Dibujo de los procesos y cómo se conectan. Muestra flujos, no jerarquías.</dd>
+  <dt>MECIP</dt><dd>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay. Versiones 2008 y 2015.</dd>
+  <dt>Mejora continua</dt><dd>Revisar y ajustar siempre, sin esperar a que algo falle gravemente.</dd>
+  <dt>NRM</dt><dd>Norma de Requisitos Mínimos para un SCI. Dice qué es obligatorio controlar. La adoptó la Res. CGR N.° 377/2016.</dd>
+  <dt>Organigrama</dt><dd>Dibujo de las unidades de la institución y quién depende de quién.</dd>
+  <dt>PHVA</dt><dd>Planificar, Hacer, Verificar, Actuar. El ciclo de gestión y mejora del SCI.</dd>
+  <dt>Proceso</dt><dd>Entrada + transformación = salida para un destinatario.</dd>
+  <dt>Salida</dt><dd>El resultado que produce el proceso.</dd>
+  <dt>SCI</dt><dd>Sistema de Control Interno: todos los controles conectados entre sí y con la gestión.</dd>
+  <dt>Seguridad razonable</dt><dd>El SCI reduce mucho la probabilidad de errores, pero no garantiza que nunca ocurran.</dd>
+  <dt>Subproceso</dt><dd>Parte definida de un proceso que facilita su análisis y control.</dd>
+  <dt>Trazabilidad</dt><dd>Poder seguir el rastro de un trámite: quién hizo qué, cuándo y con qué respaldo.</dd>
+  <dt>Valor público</dt><dd>El beneficio real que recibe la ciudadanía gracias al trabajo de la institución.</dd>
+</dl>
+
+<!-- ============ TRAMPAS ============ -->
+<h2 id="trampas"><span class="eyebrow">Antes del examen</span>Confusiones frecuentes</h2>
+<p>Estas son las ideas que más se prestan a preguntas «trampa».</p>
+<div class="tbl"><table>
+  <thead><tr><th>Idea equivocada</th><th>Lo correcto</th></tr></thead>
+  <tbody>
+    <tr><td>El control interno es tarea de Auditoría Interna.</td><td>Es de toda la organización. Auditoría Interna <b>evalúa con independencia</b>.</td></tr>
+    <tr><td>La Contraloría conduce el SCI de cada institución.</td><td>Lo establecen y conducen la <b>Máxima Autoridad y el Equipo Directivo</b>.</td></tr>
+    <tr><td>Un buen SCI garantiza cero errores.</td><td>Da <b>seguridad razonable</b>, no absoluta.</td></tr>
+    <tr><td>El control es un fin en sí mismo.</td><td>Es un <b>medio</b> para mejorar la gestión pública.</td></tr>
+    <tr><td>El control se hace al final, cuando el resultado ya salió.</td><td>Va <b>dentro del proceso</b>, en cada etapa.</td></tr>
+    <tr><td>MECIP 2015 dice «cómo» hacer cada control.</td><td>Define el <b>«qué»</b>; el <b>«cómo»</b> lo decide cada institución.</td></tr>
+    <tr><td>La Res. 377 es de 2015.</td><td>Es de <b>2016</b>. El MECIP es 2015; la resolución que adopta la NRM, 2016.</td></tr>
+    <tr><td>MECIP 2015: 5 componentes, 9 principios, 16 elementos.</td><td><b>5 componentes, 16 principios, 9 elementos</b>.</td></tr>
+    <tr><td>MECIP 2008 tenía 29 componentes.</td><td>Tenía <b>3 componentes corporativos, 9 componentes y 29 estándares</b>.</td></tr>
+    <tr><td>Autocontrol y autorregulación son lo mismo.</td><td>Autocontrol = <b>la persona</b> revisa su trabajo. Autorregulación = <b>la institución</b> se da sus reglas dentro de la ley.</td></tr>
+    <tr><td>Permanente y dinámico son lo mismo.</td><td>Permanente = <b>siempre presente</b>. Dinámico = <b>se adapta a los cambios</b>.</td></tr>
+    <tr><td>Verificar es corregir.</td><td>Verificar = <b>medir y comparar</b>. Actuar = <b>ajustar y mejorar</b>.</td></tr>
+    <tr><td>Mapa de procesos y organigrama muestran lo mismo.</td><td>Organigrama = autoridad. Mapa de procesos = flujos e interacciones.</td></tr>
+    <tr><td>Los procesos de apoyo son los menos importantes y se pueden omitir.</td><td>Proveen los recursos y condiciones para que <b>los demás procesos operen</b>.</td></tr>
+    <tr><td>Para cumplir plazos se pueden quitar controles.</td><td>Hay que mejorar <b>sin debilitar legalidad, calidad ni controles</b>.</td></tr>
+    <tr><td>Las calificaciones MRE recientes son «Inicial».</td><td>De 2019 a 2024 todas están en <b>Diseñado (2 a 2,99)</b>.</td></tr>
+  </tbody>
+</table></div>
+
+<div class="cta">
+  <p><b>¿Listo para probarte?</b> El examen de práctica tiene 109 preguntas de selección múltiple, con orden y opciones trampa al azar en cada intento.</p>
+  <a href="examen.html">Empezar el examen →</a>
+</div>
+
+<footer>Guía elaborada a partir de las Clases 1, 2 y 3 del curso «Control de la Gestión Pública» (docentes: Laura Beatriz Colmán Aguilar y Patricia Adriana Ortiz).</footer>
+</main>
+</div>
+<script>
+(function(){
+  var b=document.getElementById('btnPrint');
+  var top=true; try{top=window.self===window.top}catch(e){top=false}
+  if(top&&b){b.hidden=false;b.addEventListener('click',function(){window.print()})}
+})();
+</script>
+</body>
+</html>

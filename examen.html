@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Examen MECIP · Práctica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@87,500;87,700;87,800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --bg:#F3F5F2; --sheet:#FFFFFF; --ink:#1B2430; --muted:#556260; --rule:#D3DBD6;
+  --accent:#1F6F5C; --accent-soft:#E2F0EA; --warn:#9A6212; --warn-soft:#FBF0DC;
+  --ok:#1E7A45; --ok-soft:#DFF2E6; --bad:#B03A2A; --bad-soft:#FBE4E0; --chip:#EEF2EF;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0F1513; --sheet:#161E1B; --ink:#E3EAE6; --muted:#9AA9A3; --rule:#2C3934;
+    --accent:#62C3A6; --accent-soft:#1B322B; --warn:#E2B25A; --warn-soft:#332818;
+    --ok:#6FD39A; --ok-soft:#173226; --bad:#F08E7E; --bad-soft:#3A1D19; --chip:#1F2926;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0F1513; --sheet:#161E1B; --ink:#E3EAE6; --muted:#9AA9A3; --rule:#2C3934;
+  --accent:#62C3A6; --accent-soft:#1B322B; --warn:#E2B25A; --warn-soft:#332818;
+  --ok:#6FD39A; --ok-soft:#173226; --bad:#F08E7E; --bad-soft:#3A1D19; --chip:#1F2926;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--display);font-size:16px;line-height:1.5;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:820px;margin:0 auto}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);font-stretch:87%;line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,5vw,42px);font-weight:800}
+h2{font-size:22px;font-weight:800}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.muted{color:var(--muted)}
+.panel{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:24px clamp(16px,4vw,32px);margin-top:18px}
+header.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px}
+header.top a{font-size:14px;font-weight:700;text-decoration:none}
+
+/* configuración */
+.field{display:grid;gap:8px;padding:16px 0;border-bottom:1px solid var(--rule)}
+.field:last-of-type{border-bottom:0}
+.field > label,.field > .lbl{font-weight:700;font-size:15px}
+.field .hint{font-size:13px;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{font:inherit;font-size:14px;font-weight:700;border:1px solid var(--rule);background:var(--sheet);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.chip:hover{border-color:var(--ink)}
+input[type=number]{font:inherit;font-family:var(--mono);width:90px;padding:6px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--sheet);color:var(--ink)}
+input[type=range]{flex:1 1 200px;accent-color:var(--accent)}
+.check{display:flex;gap:8px;align-items:center;font-size:15px;cursor:pointer;padding:4px 0}
+.check input{accent-color:var(--accent);width:18px;height:18px}
+.btn{font:inherit;font-weight:700;border:0;border-radius:8px;padding:12px 20px;cursor:pointer;background:var(--accent);color:var(--sheet)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule)}
+.btn.dark{background:var(--ink);color:var(--sheet)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.stats{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--muted);margin-top:8px}
+.stats b{color:var(--ink);font-family:var(--mono);font-weight:500}
+.err{color:var(--bad);font-size:14px;min-height:1.4em}
+
+/* examen */
+.bar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;font-size:14px}
+.progress{height:6px;background:var(--chip);border-radius:3px;overflow:hidden;margin-top:10px}
+.progress i{display:block;height:100%;background:var(--accent);width:0;transition:width .2s}
+@media (prefers-reduced-motion:reduce){.progress i{transition:none}}
+.qnum{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.tag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:3px 8px;border-radius:4px}
+.question{font-family:var(--body);font-size:21px;line-height:1.45;margin:14px 0 18px;max-width:62ch}
+.opts{display:grid;gap:10px}
+.opt{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;text-align:left;font:inherit;font-family:var(--body);font-size:17px;line-height:1.45;color:var(--ink);background:var(--sheet);border:1.5px solid var(--rule);border-radius:8px;padding:12px 14px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt .l{font-family:var(--mono);font-size:14px;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--rule);display:grid;place-items:center;color:var(--muted)}
+.opt.sel{border-color:var(--ink);background:var(--chip)}
+.opt.sel .l{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.right .l{background:var(--ok);color:var(--sheet);border-color:var(--ok)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .l{background:var(--bad);color:var(--sheet);border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.feedback{margin-top:14px;padding:12px 16px;border-radius:8px;font-family:var(--body);font-size:16px}
+.feedback.ok{background:var(--ok-soft)}.feedback.no{background:var(--bad-soft)}
+.feedback b{font-family:var(--display)}
+.nav{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;margin-top:20px}
+.map{display:grid;grid-template-columns:repeat(auto-fill,minmax(36px,1fr));gap:6px;margin-top:14px}
+.map button{font:inherit;font-family:var(--mono);font-size:12px;height:32px;border:1px solid var(--rule);border-radius:5px;background:var(--sheet);color:var(--muted);cursor:pointer}
+.map button.ans{background:var(--chip);color:var(--ink);border-color:var(--muted)}
+.map button.cur{outline:2px solid var(--accent);outline-offset:1px;color:var(--ink)}
+.map button.ok{background:var(--ok-soft);border-color:var(--ok);color:var(--ink)}
+.map button.no{background:var(--bad-soft);border-color:var(--bad);color:var(--ink)}
+details.mapbox summary{cursor:pointer;font-size:14px;font-weight:700;margin-top:16px}
+
+/* confirmación en página */
+.confirm{margin-top:14px;padding:14px 16px;border-radius:8px;background:var(--warn-soft);display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.confirm p{margin:0;font-size:15px}
+
+/* resultados */
+.score{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+@media (max-width:520px){.score{grid-template-columns:1fr}}
+.big{font-size:64px;font-weight:800;font-stretch:87%;line-height:1;font-variant-numeric:tabular-nums}
+.verdict{font-size:18px;font-weight:700}
+.byclass{display:grid;gap:8px;margin-top:16px}
+.byclass .r{display:grid;grid-template-columns:90px 1fr 70px;gap:10px;align-items:center;font-size:14px}
+.byclass .track{height:8px;background:var(--chip);border-radius:4px;overflow:hidden}
+.byclass .track i{display:block;height:100%;background:var(--accent)}
+.byclass .v{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.review{display:grid;gap:12px;margin-top:14px}
+.ritem{border:1px solid var(--rule);border-left:4px solid var(--ok);border-radius:0 8px 8px 0;padding:12px 16px}
+.ritem.no{border-left-color:var(--bad)}
+.ritem .q{font-family:var(--body);font-size:17px;margin:4px 0 8px}
+.ritem .line{font-family:var(--body);font-size:15px;margin:2px 0}
+.ritem .line b{font-family:var(--display);font-size:13px;letter-spacing:.04em}
+.ritem .exp{font-family:var(--body);font-size:15px;color:var(--muted);margin-top:6px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <div class="eyebrow">Control de la Gestión Pública · Clases 1 a 3</div>
+    <h1>Examen de práctica</h1>
+  </div>
+  <a href="guia-estudio.html">← Volver a la guía de estudio</a>
+</header>
+
+<!-- ===== CONFIGURACIÓN ===== -->
+<section class="panel" id="setup">
+  <h2>Armá tu examen</h2>
+  <p class="muted" style="margin:6px 0 0">Cada intento sortea las preguntas, su orden, las opciones trampa y la posición de la respuesta correcta.</p>
+
+  <div class="field">
+    <label for="nq">Cantidad de preguntas</label>
+    <div class="row">
+      <input type="range" id="nqRange" min="5" max="80" value="20" aria-label="Cantidad de preguntas">
+      <input type="number" id="nq" min="5" max="80" value="20">
+    </div>
+    <div class="row" id="presets"></div>
+    <div class="hint" id="poolInfo"></div>
+  </div>
+
+  <div class="field">
+    <span class="lbl">Temas</span>
+    <div class="row">
+      <label class="check"><input type="checkbox" id="c1" checked> Clase 1 · Introducción</label>
+      <label class="check"><input type="checkbox" id="c2" checked> Clase 2 · Generalidades del SCI</label>
+      <label class="check"><input type="checkbox" id="c3" checked> Clase 3 · Enfoque por procesos</label>
+    </div>
+  </div>
+
+  <div class="field">
+    <span class="lbl">Opciones por pregunta</span>
+    <div class="row" id="nopts">
+      <button type="button" class="chip" data-v="3" aria-pressed="false">3 opciones</button>
+      <button type="button" class="chip" data-v="4" aria-pressed="true">4 opciones</button>
+      <button type="button" class="chip" data-v="5" aria-pressed="false">5 opciones</button>
+    </div>
+    <div class="hint">Con más opciones hay más respuestas trampa.</div>
+  </div>
+
+  <div class="field">
+    <span class="lbl">Corrección</span>
+    <div class="row" id="mode">
+      <button type="button" class="chip" data-v="end" aria-pressed="true">Al final, como examen real</button>
+      <button type="button" class="chip" data-v="now" aria-pressed="false">Inmediata, para estudiar</button>
+    </div>
+  </div>
+
+  <div class="err" id="setupErr" role="alert"></div>
+  <div class="row">
+    <button type="button" class="btn" id="start">Comenzar examen</button>
+  </div>
+  <div class="stats" id="history"></div>
+</section>
+
+<!-- ===== EXAMEN ===== -->
+<section class="panel" id="exam" hidden>
+  <div class="bar">
+    <span class="qnum" id="qnum"></span>
+    <span class="qnum" id="timer">00:00</span>
+  </div>
+  <div class="progress"><i id="prog"></i></div>
+  <div style="margin-top:18px"><span class="tag" id="qtag"></span></div>
+  <p class="question" id="qtext"></p>
+  <div class="opts" id="opts" role="group" aria-label="Opciones de respuesta"></div>
+  <div id="fb"></div>
+  <div class="nav">
+    <button type="button" class="btn ghost" id="prev">← Anterior</button>
+    <div class="row">
+      <button type="button" class="btn ghost" id="finish">Terminar</button>
+      <button type="button" class="btn dark" id="next">Siguiente →</button>
+    </div>
+  </div>
+  <div id="confirmBox"></div>
+  <details class="mapbox"><summary>Ver todas las preguntas</summary><div class="map" id="map"></div></details>
+</section>
+
+<!-- ===== RESULTADOS ===== -->
+<section class="panel" id="results" hidden>
+  <div class="score">
+    <div class="big" id="pct"></div>
+    <div>
+      <div class="verdict" id="verdict"></div>
+      <div class="muted" id="detail"></div>
+    </div>
+  </div>
+  <div class="byclass" id="byclass"></div>
+  <div class="actions">
+    <button type="button" class="btn" id="again">Nuevo examen (mismas opciones)</button>
+    <button type="button" class="btn dark" id="retryWrong">Repetir solo las falladas</button>
+    <button type="button" class="btn ghost" id="toSetup">Cambiar configuración</button>
+  </div>
+  <div class="row" style="margin-top:24px;justify-content:space-between">
+    <h2>Revisión</h2>
+    <label class="check"><input type="checkbox" id="onlyWrong"> Mostrar solo las incorrectas</label>
+  </div>
+  <div class="review" id="review"></div>
+</section>
+
+</div>
+
+<script>
+/* Banco de preguntas.
+   c: clase · q: enunciado · a: respuesta correcta · d: opciones trampa (se sortean) · e: explicación */
+var BANK = [
+/* ---------- CLASE 1 ---------- */
+{c:1,q:"Según la Clase 1, el control interno es:",a:"Un conjunto de normas, principios, acciones y procesos efectuados por las autoridades, la administración y los funcionarios de una entidad.",d:["Una revisión que realiza únicamente la Auditoría Interna al cierre del ejercicio.","Un conjunto de sanciones que la Contraloría aplica a los funcionarios.","Un informe anual que la máxima autoridad remite a la Contraloría.","Un listado de controles aislados que cada área define por su cuenta.","Un área específica de la institución encargada de revisar expedientes."],e:"El control interno lo efectúan autoridades, administración y funcionarios; no es un área ni un informe."},
+{c:1,q:"El control interno se constituye en un medio para lograr una función administrativa del Estado:",a:"Íntegra, eficaz y transparente.",d:["Rápida, económica y descentralizada.","Independiente, autónoma y sancionadora.","Eficiente, rentable y competitiva.","Legal, jerárquica y centralizada.","Documentada, auditada y certificada."],e:"La definición dice: función administrativa del Estado íntegra, eficaz y transparente."},
+{c:1,q:"¿El control interno es un fin en sí mismo?",a:"No. Es un medio para mejorar la gestión pública.",d:["Sí. Su finalidad principal es cumplir con la Contraloría.","Sí. Su objetivo es generar documentación de respaldo.","No. Es una herramienta exclusiva de la auditoría externa.","Sí, cuando la institución alcanza el nivel de Excelencia.","No. Es un requisito formal que solo se cumple una vez al año."],e:"Frase de cierre de la Clase 1: «El control interno no es un fin en sí mismo. Es un medio para mejorar la gestión pública»."},
+{c:1,q:"¿Cuál de estas afirmaciones describe una función del control interno?",a:"Sirve como primera línea de defensa en la protección de activos.",d:["Sirve como última instancia para sancionar irregularidades.","Reemplaza la necesidad de planificar objetivos institucionales.","Garantiza que nunca se cometan errores.","Sustituye el trabajo de la Auditoría Interna.","Sirve para evaluar el desempeño individual con fines disciplinarios."],e:"El control interno es la primera línea de defensa en la protección de activos."},
+{c:1,q:"El control interno ayuda a la Dirección a alcanzar los objetivos de la entidad:",a:"Sobre una base continua.",d:["Solamente al cierre del año fiscal.","Solo cuando hay una auditoría programada.","De forma ocasional, ante denuncias.","Solo en los procesos misionales.","Una vez que los errores ya se produjeron."],e:"Ayuda a la Dirección a alcanzar los objetivos «sobre una base continua»."},
+{c:1,q:"La Clase 1 resume para qué sirve el control interno en tres palabras. ¿Cuáles son?",a:"Prevención, resultados y continuidad.",d:["Sanción, auditoría y denuncia.","Documentación, firma y archivo.","Detección, corrección y castigo.","Planificación, presupuesto y compras.","Transparencia, rendición y publicación."],e:"¿Para qué sirve el control interno? Prevención, resultados y continuidad."},
+{c:1,q:"¿En qué orden presenta la Clase 1 el ciclo en que el control forma parte del trabajo diario?",a:"Planificar → Ejecutar → Verificar → Mejorar.",d:["Ejecutar → Planificar → Mejorar → Verificar.","Verificar → Planificar → Ejecutar → Mejorar.","Planificar → Verificar → Ejecutar → Sancionar.","Diagnosticar → Ejecutar → Auditar → Informar.","Ejecutar → Verificar → Planificar → Archivar."],e:"1 Planificar, 2 Ejecutar, 3 Verificar, 4 Mejorar."},
+{c:1,q:"Que «el control forma parte del trabajo diario» significa que:",a:"Está presente en los procesos, las decisiones y las responsabilidades de cada área.",d:["Es una revisión ocasional que se hace una vez al año.","Es una tarea paralela a cargo de un área especial.","Depende exclusivamente de la Auditoría Interna.","Se realiza solo cuando se detecta un error.","Se limita a firmar los documentos antes de archivarlos."],e:"No es una revisión ocasional ni una tarea paralela: está en los procesos, decisiones y responsabilidades de cada área."},
+{c:1,q:"¿Quiénes establecen y gestionan el Sistema de Control Interno de una institución?",a:"La Máxima Autoridad Institucional y el Equipo Directivo.",d:["La Auditoría Interna, de forma exclusiva.","La Contraloría General de la República.","Los funcionarios de Mesa de Entrada.","Una consultora externa contratada para ese fin.","La Asesoría Jurídica de la institución."],e:"La Máxima Autoridad Institucional y el Equipo Directivo establecen y gestionan el SCI."},
+{c:1,q:"En la responsabilidad compartida, ¿cuál de estas acciones NO figura entre lo que cada persona aporta desde sus funciones?",a:"Evaluar con independencia a las demás dependencias.",d:["Cumplir funciones.","Aplicar procedimientos.","Comunicar riesgos.","Actuar con ética."],e:"Cada persona: cumplir funciones, aplicar procedimientos, comunicar riesgos y actuar con ética. Evaluar con independencia es propio de Auditoría Interna."},
+{c:1,q:"¿En qué año se emitió la Resolución CGR N.° 377?",a:"2016",d:["2008","2015","2019","2012","2024"],e:"Resolución CGR N.° 377/2016. Trampa típica: el MECIP es 2015, pero la resolución es de 2016."},
+{c:1,q:"¿Qué adopta oficialmente la Resolución CGR N.° 377/2016?",a:"La Norma de Requisitos Mínimos (NRM) para un Sistema de Control Interno.",d:["El MECIP 2008 como primer modelo estandarizado.","El organigrama único para las instituciones públicas.","Un régimen de sanciones para funcionarios.","La eliminación de la Auditoría Interna en las instituciones.","El presupuesto anual de control de cada institución."],e:"La Resolución adopta oficialmente la NRM; el Manual MECIP 2015 desarrolla la orientación técnica y metodológica."},
+{c:1,q:"¿Cuál es la relación entre la Resolución CGR N.° 377/2016 y el Manual MECIP 2015?",a:"La Resolución adopta la NRM y el Manual desarrolla la orientación técnica y metodológica.",d:["El Manual adopta la norma y la Resolución solo la explica.","Son el mismo documento con distinto nombre.","El Manual deroga a la NRM.","La NRM es optativa y el Manual es obligatorio.","La Resolución crea el MECIP 2008 y el Manual lo reemplaza."],e:"Resolución (adopta la NRM) + Manual MECIP 2015 (orientación técnica y metodológica)."},
+{c:1,q:"¿Qué define la Norma de Requisitos Mínimos (NRM)?",a:"Los requerimientos básicos para un sistema efectivo de control interno.",d:["El detalle exacto de cómo cada institución debe ejecutar cada control.","Las sanciones penales por incumplimiento.","La estructura salarial de los auditores.","El presupuesto de cada institución pública.","La lista de funcionarios responsables de cada trámite."],e:"La NRM define requerimientos básicos (mínimos) para un SCI efectivo."},
+{c:1,q:"El MECIP 2015 busca definir:",a:"El «qué» controlar, dejando a las instituciones el «cómo» implementar.",d:["El «cómo» controlar, dejando a las instituciones el «qué».","El «qué» y el «cómo» de forma idéntica para todas las instituciones.","Solo el «cuándo» controlar.","El «quién» audita, dejando el resto a la Contraloría.","El «por qué» controlar, sin requisitos concretos."],e:"MECIP 2015: define el «qué» controlar; el «cómo» lo decide cada institución."},
+{c:1,q:"La nueva estructura del MECIP 2015 se basa principalmente en:",a:"La gestión por procesos y la administración de riesgos.",d:["La estructura organizacional y el organigrama.","La auditoría externa y el régimen sancionatorio.","La documentación exhaustiva y los manuales de operación.","La gestión presupuestaria y financiera.","La autoevaluación individual y los planes de mejoramiento individual."],e:"Se basa principalmente en la Gestión por Procesos y la Administración de Riesgos."},
+{c:1,q:"¿Cuál de estos NO es un propósito del MECIP 2015 según la Clase 1?",a:"Aumentar la cantidad de documentación exigida a las instituciones.",d:["Simplificar la aplicación.","Adaptar el modelo a las necesidades particulares de cada institución.","Facilitar el proceso de implementación y consolidación.","Profundizar el enfoque basado en procesos y riesgos.","Definir los requerimientos mínimos básicos."],e:"El exceso documental era un desafío del MECIP 2008; el 2015 busca simplificar."},
+{c:1,q:"¿Cuáles fueron los aportes del MECIP 2008?",a:"Criterios comunes, responsabilidades definidas y procesos documentados.",d:["Simplificación de requisitos y menos documentación.","Enfoque basado en riesgos como eje principal y análisis crítico del SCI.","Definir solo el «qué» y dejar el «cómo» a cada institución.","Controles que se actualizaban automáticamente.","Eliminación de los planes de mejoramiento."],e:"MECIP 2008 aportó criterios comunes, responsabilidades definidas y procesos documentados."},
+{c:1,q:"¿Cuáles fueron los desafíos del MECIP 2008?",a:"Complejidad de requisitos, exceso documental y controles desactualizados.",d:["Falta de criterios comunes y responsabilidades sin definir.","Ausencia de procesos documentados.","Falta total de normativa sobre control interno.","Exceso de flexibilidad para cada institución.","Poca participación de la Auditoría Interna."],e:"Desafíos: complejidad de requisitos, exceso documental, controles desactualizados."},
+{c:1,q:"Antes del MECIP 2008, el control interno en las instituciones se caracterizaba por:",a:"Prácticas heterogéneas.",d:["Un modelo estandarizado.","La Norma de Requisitos Mínimos.","El enfoque por procesos y riesgos.","La mejora continua sistemática.","Un manual único de operación."],e:"Antes: prácticas heterogéneas. 2008: primer modelo estandarizado."},
+{c:1,q:"¿Cuál de estas NO es una razón mencionada para actualizar el modelo MECIP?",a:"La desaparición de los riesgos institucionales.",d:["Nuevas tecnologías.","Cambios normativos.","Nuevas funciones.","Procesos más complejos."],e:"Razones: nuevas tecnologías, cambios normativos, nuevas funciones y procesos más complejos."},
+{c:1,q:"Según la Clase 1, cuando los controles no se revisan aparecen:",a:"Duplicidades, retrasos, criterios diferentes y riesgos sin respuesta.",d:["Mayor eficiencia y menos costos.","Más transparencia y rendición de cuentas.","Procesos más simples y ágiles.","Responsabilidades mejor definidas.","Controles más sólidos por la costumbre."],e:"Cuando los controles no se revisan aparecen duplicidades, retrasos, criterios diferentes y riesgos sin respuesta."},
+{c:1,q:"¿Cómo estaba estructurado el MECIP 2008?",a:"3 componentes corporativos, 9 componentes y 29 estándares.",d:["5 componentes, 16 principios y 9 elementos.","3 componentes corporativos, 5 componentes y 16 estándares.","9 componentes corporativos, 29 componentes y 3 estándares.","5 componentes corporativos, 9 componentes y 42 estándares.","3 componentes, 16 principios y 29 elementos."],e:"MECIP 2008: 3 componentes corporativos → 9 componentes → 29 estándares."},
+{c:1,q:"¿Cómo está estructurado el MECIP 2015?",a:"5 componentes, 16 principios y 9 elementos.",d:["3 componentes corporativos, 9 componentes y 29 estándares.","5 componentes, 9 principios y 16 elementos.","16 componentes, 5 principios y 9 elementos.","9 componentes, 16 principios y 5 elementos.","5 componentes corporativos, 16 estándares y 9 elementos."],e:"MECIP 2015: 5 componentes → 16 principios → 9 elementos."},
+{c:1,q:"¿Cuál de los siguientes NO es uno de los componentes del MECIP 2015 (Unidades 5 a 9 del curso)?",a:"Control Corporativo Estratégico.",d:["Ambiente de Control.","Control de la Planificación.","Control de la Implementación.","Control de Evaluación.","Control para la Mejora."],e:"Los 5 componentes: Ambiente de Control, Control de la Planificación, de la Implementación, de Evaluación y para la Mejora."},
+{c:1,q:"En el MECIP 2015, los requisitos 2008 de contexto estratégico, identificación, análisis y valoración de riesgos (1.3.1 a 1.3.4) pasan a:",a:"Un único requisito: II.B.4 Identificación y evaluación de riesgos.",d:["Cuatro requisitos separados, igual que en 2008.","El requisito II.E.2 Mejora continua.","El requisito I.A.1 Compromisos de la Alta Dirección.","Desaparecen sin equivalente.","El requisito II.D.2 Auditoría interna."],e:"La tabla comparativa muestra que 1.3.1–1.3.4 se unifican en II.B.4."},
+{c:1,q:"Los planes de mejoramiento institucional, funcional e individual del MECIP 2008 se integran en el MECIP 2015 en:",a:"II.E.2 Mejora continua.",d:["II.B.4 Identificación y evaluación de riesgos.","II.D.1 Seguimiento y medición del control interno.","I.A.3 Protocolos de buen gobierno.","II.C.3.2 Control de documentos.","II.B.3 Estructura organizacional."],e:"3.3.1, 3.3.2 y 3.3.3 (planes de mejoramiento) → II.E.2 Mejora continua."},
+{c:1,q:"¿Qué requisito del MECIP 2015 NO tenía equivalente en el MECIP 2008?",a:"II.E.1 Análisis crítico del sistema de control interno.",d:["II.D.2 Auditoría interna.","II.B.2 Gestión por procesos.","I.A.2 Acuerdos y compromisos éticos.","II.C.4.3 Rendición de cuentas.","I.A.4 Desarrollo del talento humano."],e:"En la tabla, II.E.1 Análisis crítico aparece sin equivalente 2008 («---»)."},
+{c:1,q:"Una calificación MRE de 2,59 corresponde al nivel:",a:"Diseñado.",d:["Inicial.","Gestionado.","Optimizado.","Deficiente.","Excelencia."],e:"Diseñado = 2 a 2,99."},
+{c:1,q:"En la escala del MRE, el nivel «Gestionado» corresponde a:",a:"3 a 3,99.",d:["2 a 2,99.","4 a 4,99.","1 a 1,99.","5.","0 a 0,99."],e:"Excelencia 5 · Optimizado 4–4,99 · Gestionado 3–3,99 · Diseñado 2–2,99 · Inicial 1–1,99 · Deficiente 0–0,99."},
+{c:1,q:"En la escala del MRE, ¿qué nivel corresponde a un puntaje entre 4 y 4,99?",a:"Optimizado.",d:["Gestionado.","Excelencia.","Diseñado.","Consolidado.","Avanzado."],e:"4 a 4,99 = Optimizado. «Consolidado» y «Avanzado» no existen en esta escala."},
+{c:1,q:"Entre 2019 y 2024, ¿qué año tuvo la calificación MRE más alta?",a:"2019, con 2,61.",d:["2024, con 2,59.","2023, con 2,23.","2020, con 2,05.","2022, con 2,04.","2021, con 2,02."],e:"2019: 2,61 (la más alta). 2024: 2,59 (muy cerca, pero menor)."},
+{c:1,q:"Entre 2019 y 2024, ¿qué año tuvo la calificación MRE más baja?",a:"2021, con 2,02.",d:["2020, con 2,05.","2022, con 2,04.","2019, con 2,61.","2023, con 2,23.","2024, con 2,59."],e:"2021: 2,02 fue la calificación más baja del período."},
+{c:1,q:"Según las ideas clave de la Clase 1, el enfoque del control interno es:",a:"Preventivo, integral y continuo.",d:["Correctivo, aislado y ocasional.","Sancionador, externo y anual.","Reactivo, parcial y periódico.","Punitivo, centralizado y documental.","Detectivo, individual y posterior."],e:"Idea clave: «Su enfoque es preventivo, integral y continuo»."},
+{c:1,q:"Según el plan del curso, ¿qué unidad sigue a «Enfoque basado en procesos»?",a:"Enfoque basado en riesgos.",d:["Ambiente de Control.","Control para la Mejora.","Generalidades del SCI.","Control de Evaluación.","Control de la Planificación."],e:"Unidad 3: Enfoque basado en procesos → Unidad 4: Enfoque basado en riesgos."},
+{c:1,q:"El control interno contribuye, además de a los objetivos institucionales, al logro de:",a:"La finalidad social del Estado.",d:["La rentabilidad económica de la institución.","La reducción del número de funcionarios.","El cumplimiento de metas partidarias.","La eliminación de la auditoría externa.","La recaudación tributaria."],e:"La definición: «…apoyando el cumplimiento de sus objetivos institucionales y contribuyendo al logro de la finalidad social del Estado»."},
+
+/* ---------- CLASE 2 ---------- */
+{c:2,q:"Según la Clase 2, el Sistema de Control Interno:",a:"Es un sistema integrado a la gestión institucional.",d:["Es un conjunto de controles aislados.","Es un área de la institución dependiente de la Auditoría Interna.","Es un documento que se aprueba una vez y se archiva.","Es una auditoría anual obligatoria.","Es una herramienta exclusiva del área financiera."],e:"El SCI NO es un conjunto de controles aislados; SÍ es un sistema integrado a la gestión institucional."},
+{c:2,q:"¿Cuál es la definición de SCI presentada en la Clase 2?",a:"Conjunto organizado de planes, métodos, políticas, procedimientos, prácticas, recursos y acciones que interactúan entre sí.",d:["Conjunto de sanciones y multas que aplica la Contraloría.","Conjunto de revisiones que realiza la Auditoría Interna al final de cada proceso.","Listado de firmas necesarias para aprobar un expediente.","Manual de funciones de cada cargo de la institución.","Conjunto de indicadores financieros de la institución."],e:"SCI: conjunto organizado de planes, métodos, políticas, procedimientos, prácticas, recursos y acciones que interactúan entre sí."},
+{c:2,q:"¿Qué alcance tiene el SCI dentro de la institución?",a:"Comprende a toda la organización.",d:["Solo las áreas financieras y contables.","Solo la Auditoría Interna.","Solo la Máxima Autoridad.","Solo los procesos misionales.","Solo las dependencias que manejan dinero."],e:"El SCI comprende a toda la organización."},
+{c:2,q:"¿Qué significa la sigla PHVA?",a:"Planificar, Hacer, Verificar, Actuar.",d:["Programar, Hacer, Validar, Auditar.","Planificar, Habilitar, Vigilar, Aprobar.","Proponer, Hacer, Verificar, Archivar.","Planear, Homologar, Valorar, Ajustar.","Presupuestar, Hacer, Vigilar, Auditar."],e:"PHVA = Planificar, Hacer, Verificar, Actuar."},
+{c:2,q:"En el modelo del SCI, la fase «Planificar» del PHVA se relaciona con el componente:",a:"Control de la Planificación.",d:["Control de la Implementación.","Control de Evaluación.","Control para la Mejora.","Control Corporativo.","Control de Gestión Financiera."],e:"P → Control de la Planificación."},
+{c:2,q:"En el modelo del SCI, la fase «Hacer» del PHVA se relaciona con el componente:",a:"Control de la Implementación.",d:["Control de la Planificación.","Control de Evaluación.","Control para la Mejora.","Ambiente de Control.","Control de Ejecución Presupuestaria."],e:"H → Control de la Implementación."},
+{c:2,q:"En el modelo del SCI, la fase «Verificar» del PHVA se relaciona con el componente:",a:"Control de Evaluación.",d:["Control de la Implementación.","Control para la Mejora.","Control de la Planificación.","Ambiente de Control.","Control de Auditoría Externa."],e:"V → Control de Evaluación."},
+{c:2,q:"En el modelo del SCI, la fase «Actuar» del PHVA se relaciona con el componente:",a:"Control para la Mejora.",d:["Control de Evaluación.","Control de la Implementación.","Control de la Planificación.","Control Correctivo Sancionatorio.","Control de la Ejecución."],e:"A → Control para la Mejora."},
+{c:2,q:"¿Qué fase del PHVA consiste en establecer objetivos y procesos, e identificar los riesgos asociados para determinar los controles operacionales?",a:"Planificar.",d:["Hacer.","Verificar.","Actuar.","Auditar."],e:"Planificar incluye establecer objetivos y procesos e identificar riesgos para definir controles."},
+{c:2,q:"«Realizar el seguimiento y la medición de la efectividad de los controles respecto a las políticas, los objetivos y los requisitos, e informar sobre los resultados» corresponde a:",a:"Verificar.",d:["Planificar.","Hacer.","Actuar.","Autorregular."],e:"Verificar = seguimiento, medición e informe de resultados."},
+{c:2,q:"«Tomar acciones para mejorar continuamente el desempeño de los controles» corresponde a la fase:",a:"Actuar.",d:["Verificar.","Hacer.","Planificar.","Registrar."],e:"Actuar = acciones de mejora continua."},
+{c:2,q:"«Implementar los procesos y controles definidos» corresponde a la fase:",a:"Hacer.",d:["Planificar.","Verificar.","Actuar.","Evaluar."],e:"Hacer = implementar lo planificado."},
+{c:2,q:"En el ejemplo de la gestión de una solicitud, ¿dónde aparece el control?",a:"En cada una de las etapas del trámite.",d:["Solo al archivar el resultado.","Solo al recibir la solicitud.","Solo cuando el funcionario analiza la documentación.","Solo cuando el ciudadano presenta un reclamo.","Solo en la etapa de auditoría posterior."],e:"«El control aparece en cada una de estas etapas»."},
+{c:2,q:"En el ejemplo de la gestión de una solicitud, ¿cuál es la primera etapa?",a:"Recibir y registrar la solicitud.",d:["Archivar el resultado del trámite.","Derivar a la dependencia competente.","Emitir la respuesta correspondiente.","Analizar la documentación.","Verificar que tenga la documentación requerida."],e:"Orden: registrar → verificar documentación → derivar → analizar → emitir respuesta → archivar."},
+{c:2,q:"¿Un Sistema de Control Interno eficaz significa que jamás ocurrirá un error?",a:"No. Brinda seguridad razonable: reduce la posibilidad de que los errores afecten los objetivos.",d:["Sí. Un SCI eficaz elimina todos los errores.","Sí, siempre que la Auditoría Interna revise todos los procesos.","No, porque el SCI solo sirve para detectar errores después de que ocurren.","Sí, si la institución obtiene una calificación de Excelencia.","No, porque el SCI solo se ocupa de los errores financieros."],e:"El SCI da seguridad razonable: no elimina todos los errores, reduce razonablemente su posibilidad."},
+{c:2,q:"¿Qué tipo de seguridad brinda el SCI sobre el logro de los objetivos?",a:"Razonable.",d:["Absoluta.","Total.","Garantizada.","Plena.","Jurídica."],e:"Seguridad razonable. Cualquier opción que sugiera certeza total es una trampa."},
+{c:2,q:"Respecto de los recursos públicos, el SCI:",a:"Contribuye a su administración efectiva y a la protección de los activos.",d:["Decide cómo se distribuye el presupuesto nacional.","Reemplaza a la Contraloría en su fiscalización.","Garantiza que nunca haya pérdidas de activos.","Se ocupa únicamente de los recursos financieros.","Autoriza los gastos de cada dependencia."],e:"Objetivo del SCI: contribuir a la administración efectiva de recursos y proteger los activos."},
+{c:2,q:"Según los objetivos del SCI, los controles deben:",a:"Estar vinculados con aquello que la institución pretende lograr.",d:["Ser iguales en todas las instituciones, sin importar sus objetivos.","Multiplicarse para cubrir cualquier situación posible.","Aplicarse solo al final de cada proceso.","Diseñarse exclusivamente por la Auditoría Interna.","Mantenerse sin cambios para dar estabilidad."],e:"Los controles deben estar vinculados con lo que la institución pretende lograr."},
+{c:2,q:"La capacidad de la institución para establecer y aplicar métodos, normas y procedimientos que regulen su propia actuación, dentro del marco jurídico, se llama:",a:"Autorregulación.",d:["Autocontrol.","Autogestión.","Autoevaluación.","Autonomía normativa."],e:"Autorregulación = la institución se da sus propias reglas dentro de la ley."},
+{c:2,q:"Que cada funcionario sea capaz de controlar su propio trabajo, identificar desviaciones y actuar oportunamente se denomina:",a:"Autocontrol.",d:["Autorregulación.","Autogestión.","Supervisión jerárquica.","Auditoría interna."],e:"Autocontrol = la persona controla su propio trabajo."},
+{c:2,q:"La capacidad institucional para interpretar, coordinar, aplicar y evaluar de manera efectiva sus funciones, orientándolas hacia su misión y objetivos, se llama:",a:"Autogestión.",d:["Autocontrol.","Autorregulación.","Autoevaluación del control.","Planificación estratégica."],e:"Autogestión = la institución se organiza y evalúa para cumplir su misión."},
+{c:2,q:"Un funcionario revisa su planilla antes de enviarla, detecta un monto mal cargado y lo corrige. ¿Qué principio aplica?",a:"Autocontrol.",d:["Autorregulación.","Autogestión.","Control de Evaluación.","Auditoría independiente."],e:"Es la persona controlando su propio trabajo: autocontrol."},
+{c:2,q:"Una institución aprueba su propio procedimiento interno de compras, respetando lo que establece la ley. ¿Qué principio se evidencia?",a:"Autorregulación.",d:["Autocontrol.","Autogestión.","Participación.","Seguridad razonable."],e:"La institución se da sus propias normas dentro del marco jurídico: autorregulación."},
+{c:2,q:"¿Cuáles son los tres principios que sustentan el SCI según la Clase 2?",a:"Autocontrol, autorregulación y autogestión.",d:["Planificación, ejecución y evaluación.","Integridad, eficacia y transparencia.","Legalidad, calidad y trazabilidad.","Autoevaluación, auditoría y sanción.","Prevención, resultados y continuidad."],e:"Los tres «auto»: autocontrol, autorregulación y autogestión."},
+{c:2,q:"¿Cuál de estas NO es una característica del SCI?",a:"Esporádico.",d:["Integral.","Permanente.","Dinámico.","Participativo.","Orientado a objetivos."],e:"Características: integral, permanente, dinámico, orientado a objetivos, participativo y sujeto a evaluación y mejora."},
+{c:2,q:"¿Cuál de estas NO es una característica del SCI?",a:"Exclusivo de la Auditoría Interna.",d:["Sujeto a evaluación y mejora.","Integral.","Permanente.","Orientado a objetivos.","Dinámico."],e:"El SCI es participativo: no es exclusivo de ninguna dependencia."},
+{c:2,q:"Que el SCI no sea una actividad de ciertos momentos del año, sino que acompañe continuamente la gestión, corresponde a la característica:",a:"Permanente.",d:["Dinámico.","Integral.","Participativo.","Orientado a objetivos."],e:"Permanente = acompaña continuamente la gestión. (Dinámico = se adapta a los cambios.)"},
+{c:2,q:"Que el SCI pueda adaptarse a los cambios que experimenta la institución corresponde a la característica:",a:"Dinámico.",d:["Permanente.","Integral.","Participativo.","Sujeto a evaluación y mejora."],e:"Dinámico = se adapta a los cambios."},
+{c:2,q:"Que el SCI abarque los distintos procesos y actividades de la organización corresponde a la característica:",a:"Integral.",d:["Permanente.","Dinámico.","Participativo.","Orientado a objetivos."],e:"Integral = abarca todos los procesos y actividades."},
+{c:2,q:"Que el SCI requiera la intervención de autoridades, directivos y funcionarios en el ámbito de sus responsabilidades corresponde a la característica:",a:"Participativo.",d:["Integral.","Permanente.","Dinámico.","Orientado a objetivos."],e:"Participativo = intervienen todos según sus responsabilidades."},
+{c:2,q:"Una institución incorpora un nuevo sistema informático pero sigue aplicando exactamente el mismo control que antes, sin analizar si sigue siendo adecuado. ¿Qué característica del SCI se está descuidando?",a:"Dinámico.",d:["Integral.","Participativo.","Orientado a objetivos.","Permanente."],e:"El ejemplo del control desactualizado ilustra que el SCI debe ser dinámico: adaptarse a los cambios."},
+{c:2,q:"Según la Clase 2, la responsabilidad sobre el control interno es:",a:"Institucional, compartida y diferenciada.",d:["Exclusiva de la Auditoría Interna.","Individual e intransferible del jefe de cada área.","Exclusiva de la Máxima Autoridad.","Externa, a cargo de la Contraloría.","Igual para todos, sin distinción de roles."],e:"La responsabilidad es institucional, compartida y diferenciada."},
+{c:2,q:"¿Cuál es el papel de la Auditoría Interna en el SCI?",a:"Evalúa con independencia.",d:["Conduce el SCI y establece los objetivos.","Gestiona los procesos de la institución.","Aplica los controles operativos del día a día en todas las áreas.","Es la única responsable del control interno.","Aprueba el presupuesto institucional."],e:"Auditoría Interna evalúa con independencia; cumple una función específica."},
+{c:2,q:"¿Quiénes incorporan el control a los procesos bajo su responsabilidad, supervisan y promueven mejoras?",a:"Los directivos.",d:["Los servidores.","La Auditoría Interna.","La Contraloría General de la República.","Los ciudadanos usuarios."],e:"Directivos: gestionan procesos, incorporan el control, supervisan y promueven mejoras."},
+{c:2,q:"¿Quiénes cumplen funciones, aplican procedimientos, observan controles y comunican situaciones relevantes?",a:"Los servidores.",d:["La Máxima Autoridad.","La Auditoría Interna.","Los directivos, en forma exclusiva.","La Contraloría General de la República."],e:"Servidores: aplican controles y comunican situaciones relevantes."},
+{c:2,q:"¿Quiénes conducen el SCI, establecen objetivos y evalúan su funcionamiento?",a:"La Máxima Autoridad y el Equipo Directivo.",d:["La Auditoría Interna.","Los servidores de cada área.","La Mesa de Entrada.","La Asesoría Jurídica."],e:"Máxima Autoridad y Equipo Directivo: conducen, establecen objetivos y evalúan el funcionamiento."},
+{c:2,q:"En un caso de error en un trámite, ¿es un problema exclusivamente de la Auditoría Interna?",a:"No. El control interno requiere la participación de toda la organización.",d:["Sí. La Auditoría Interna es la única responsable del control.","Sí, porque debió detectarlo antes que nadie.","No. Es un problema exclusivo del funcionario que cometió el error.","No. Es responsabilidad exclusiva de la Contraloría.","Sí, salvo que el error sea financiero."],e:"«El control interno no es responsabilidad exclusiva de una dependencia; requiere la participación de toda la organización»."},
+{c:2,q:"¿Cuál de estas afirmaciones es una idea clave de la Clase 2?",a:"El SCI está integrado a la gestión institucional.",d:["El SCI es una actividad paralela a la gestión.","El SCI garantiza la ausencia total de errores.","El SCI es responsabilidad exclusiva de la Auditoría Interna.","El SCI debe mantenerse igual a lo largo del tiempo.","El SCI se aplica solo a los procesos financieros."],e:"Ideas clave: integrado a la gestión, objetivos y recursos, tres «auto», características, responsabilidades compartidas."},
+
+/* ---------- CLASE 3 ---------- */
+{c:3,q:"Según la Clase 3, ¿qué es un proceso?",a:"Entrada + transformación = salida, dirigida a un destinatario.",d:["Entrada + archivo = expediente.","Norma + sanción = control.","Organigrama + cargo = resultado.","Salida + revisión = entrada.","Solicitud + firma = aprobación."],e:"Proceso: ENTRADA + TRANSFORMACIÓN = SALIDA → DESTINATARIO."},
+{c:3,q:"Según el enfoque basado en procesos, ¿dónde debe integrarse el control interno?",a:"Dentro del proceso, a lo largo de todo el recorrido.",d:["Al final, cuando el resultado ya se produjo.","Solo en la entrada del proceso.","Solo en la auditoría anual.","Fuera del proceso, a cargo de un área independiente.","Solo cuando se presenta un reclamo."],e:"NO al final; SÍ dentro del proceso, incorporando controles e interacciones a lo largo del recorrido."},
+{c:3,q:"Completá la frase de la Clase 3: «La estructura organiza, el proceso…»",a:"Conecta.",d:["Sanciona.","Divide.","Jerarquiza.","Reemplaza a la estructura.","Documenta."],e:"ESTRUCTURA ORGANIZA · PROCESO CONECTA."},
+{c:3,q:"El ejemplo Mesa de Entrada → Área Técnica → Asesoría Jurídica → Dirección muestra que:",a:"Un mismo resultado atraviesa varias dependencias y el proceso conecta entregas, decisiones, controles y responsabilidades.",d:["Cada dependencia debe trabajar de forma aislada para evitar interferencias.","El control corresponde solo a la última dependencia, la Dirección.","El organigrama es suficiente para entender cómo se produce un resultado.","La Asesoría Jurídica es la responsable de todo el control del trámite.","Mientras más dependencias intervengan, mejor es el control."],e:"Un mismo resultado atraviesa varias dependencias; el enfoque por procesos las conecta."},
+{c:3,q:"¿Cuál es el orden correcto de la cadena de valor presentada en la Clase 3?",a:"Necesidad → Entrada → Actividades → Controles → Salida/Valor.",d:["Entrada → Necesidad → Controles → Actividades → Salida/Valor.","Necesidad → Controles → Entrada → Salida/Valor → Actividades.","Actividades → Entrada → Necesidad → Salida/Valor → Controles.","Entrada → Actividades → Salida/Valor → Necesidad → Controles.","Controles → Necesidad → Actividades → Entrada → Salida/Valor."],e:"1 Necesidad, 2 Entrada, 3 Actividades, 4 Controles, 5 Salida/Valor."},
+{c:3,q:"Según la Clase 3, «agregar valor» es:",a:"Convertir una necesidad en un resultado útil, oportuno y confiable.",d:["Aumentar la cantidad de pasos de un trámite.","Generar más documentos de respaldo.","Incrementar el presupuesto de la dependencia.","Agregar más firmas de aprobación a cada expediente.","Transferir el trámite a otra dependencia."],e:"Agregar valor = convertir una necesidad en un resultado útil, oportuno y confiable."},
+{c:3,q:"Una actividad de control agrega valor cuando:",a:"Protege la legalidad, la calidad, la integridad o la trazabilidad.",d:["Agrega una firma más sin un propósito definido.","Duplica una revisión que ya se hizo en otra etapa.","Retrasa el trámite para dar tiempo a revisar.","Genera papel para el archivo institucional.","Se aplica solo porque siempre se hizo así."],e:"Un control agrega valor cuando protege legalidad, calidad, integridad o trazabilidad."},
+{c:3,q:"El cambio cultural que propone el enfoque por procesos supone el paso de:",a:"Una visión administrativa a una visión gestora.",d:["Una visión gestora a una visión administrativa.","Una visión ciudadana a una visión burocrática.","Una visión por procesos a una visión por organigrama.","Una visión preventiva a una visión sancionadora.","Una visión integral a una visión por áreas aisladas."],e:"Cambio cultural: de la visión administrativa a la visión gestora."},
+{c:3,q:"En el cambio cultural, ¿qué se convierte en el eje fundamental de la administración pública?",a:"La ciudadanía y la prestación del servicio público.",d:["El organigrama y las relaciones de autoridad.","La cantidad de documentos generados.","El presupuesto de cada dependencia.","La Auditoría Interna.","El cumplimiento de horarios de los funcionarios."],e:"Ciudadanía / prestación del servicio público como eje fundamental."},
+{c:3,q:"Los procesos que orientan, planifican, dirigen y dan seguimiento a la gestión son los procesos:",a:"Estratégicos.",d:["Misionales.","De apoyo.","De evaluación.","Operativos de soporte."],e:"Estratégicos: orientan, planifican, dirigen y dan seguimiento."},
+{c:3,q:"Los procesos que producen resultados vinculados con el mandato institucional son los procesos:",a:"Misionales.",d:["Estratégicos.","De apoyo.","De mejora.","Administrativos."],e:"Misionales: producen resultados del mandato institucional (la razón de ser)."},
+{c:3,q:"Los procesos que proveen recursos y condiciones para que los demás procesos operen son los procesos:",a:"De apoyo.",d:["Estratégicos.","Misionales.","De evaluación.","Directivos."],e:"De apoyo: proveen recursos y condiciones."},
+{c:3,q:"En un ministerio de salud, la gestión de talento humano y las compras de insumos de oficina suelen clasificarse como procesos:",a:"De apoyo.",d:["Estratégicos.","Misionales.","De evaluación.","De mejora."],e:"Proveen recursos y condiciones para que los demás procesos operen: son de apoyo."},
+{c:3,q:"La elaboración del plan estratégico institucional y el seguimiento de indicadores de gestión por la Dirección suelen ser procesos:",a:"Estratégicos.",d:["Misionales.","De apoyo.","De implementación.","Operativos."],e:"Orientan, planifican, dirigen y dan seguimiento: son estratégicos."},
+{c:3,q:"En un hospital público, la atención médica a los pacientes es típicamente un proceso:",a:"Misional.",d:["Estratégico.","De apoyo.","De evaluación.","Corporativo."],e:"Es el resultado vinculado al mandato de la institución: misional."},
+{c:3,q:"Según la Clase 3, la clasificación de los procesos en estratégicos, misionales y de apoyo:",a:"Depende del mandato y de la naturaleza de cada institución.",d:["Es idéntica para todas las instituciones públicas.","La define la Contraloría para cada institución.","Depende del tamaño del organigrama.","Depende de la cantidad de funcionarios.","Depende del presupuesto asignado."],e:"«La clasificación depende del mandato y de la naturaleza de cada institución»."},
+{c:3,q:"Las tres grandes familias de procesos (estratégicos, misionales y de apoyo) se denominan también:",a:"Macroprocesos.",d:["Subprocesos.","Actividades.","Componentes.","Estándares.","Principios."],e:"Tres grandes familias = macroprocesos."},
+{c:3,q:"¿Cuál es el orden de los niveles del proceso, de mayor a menor?",a:"Proceso → Subproceso → Actividad.",d:["Actividad → Subproceso → Proceso.","Subproceso → Proceso → Actividad.","Proceso → Actividad → Subproceso.","Actividad → Proceso → Subproceso.","Subproceso → Actividad → Proceso."],e:"Proceso (articula) → Subproceso (parte definida) → Actividad (acción acotada)."},
+{c:3,q:"¿Qué nivel articula actividades hacia un objetivo y una salida?",a:"Proceso.",d:["Subproceso.","Actividad.","Tarea.","Organigrama."],e:"Proceso: articula actividades hacia un objetivo y una salida."},
+{c:3,q:"Una parte definida de un proceso, que facilita su análisis y control, se denomina:",a:"Subproceso.",d:["Actividad.","Macroproceso.","Tarea.","Elemento."],e:"Subproceso: parte definida que facilita el análisis y el control."},
+{c:3,q:"Una acción o conjunto acotado de tareas corresponde al nivel de:",a:"Actividad.",d:["Proceso.","Subproceso.","Macroproceso.","Componente."],e:"Actividad: acción o conjunto acotado de tareas."},
+{c:3,q:"¿Cuál es la diferencia entre el organigrama y el mapa de procesos?",a:"El organigrama muestra unidades y relaciones de autoridad; el mapa de procesos muestra flujos, interacciones y contribución a la misión.",d:["El organigrama muestra flujos e interacciones; el mapa de procesos muestra relaciones de autoridad.","Son lo mismo: ambos muestran quién depende de quién.","El mapa de procesos reemplaza al organigrama y lo vuelve innecesario.","El organigrama muestra los riesgos; el mapa de procesos, los salarios.","El mapa de procesos solo incluye los procesos de apoyo."],e:"MAPA DE PROCESOS ≠ ORGANIGRAMA. Organigrama: autoridad. Mapa: flujos, interacciones y contribución a la misión."},
+{c:3,q:"En el PHVA aplicado a procesos, ¿qué pregunta responde la fase Planificar?",a:"¿Qué queremos lograr y bajo qué requisitos?",d:["¿Cómo ejecutamos los procesos y controles definidos?","¿Qué ocurrió y qué muestran el seguimiento y la medición?","¿Qué debemos ajustar y volver a medir?","¿Quién es el culpable del error?"],e:"P: ¿Qué queremos lograr y bajo qué requisitos?"},
+{c:3,q:"En el PHVA aplicado a procesos, ¿qué pregunta responde la fase Hacer?",a:"¿Cómo ejecutamos los procesos y controles definidos?",d:["¿Qué queremos lograr y bajo qué requisitos?","¿Qué ocurrió y qué muestran el seguimiento y la medición?","¿Qué debemos ajustar y volver a medir?","¿Cuántos funcionarios necesitamos contratar?"],e:"H: ¿Cómo ejecutamos los procesos y controles definidos?"},
+{c:3,q:"En el PHVA aplicado a procesos, ¿qué pregunta responde la fase Verificar?",a:"¿Qué ocurrió y qué muestran el seguimiento y la medición?",d:["¿Qué queremos lograr y bajo qué requisitos?","¿Cómo ejecutamos los procesos y controles definidos?","¿Qué debemos ajustar y volver a medir?","¿Qué sanción corresponde aplicar?"],e:"V: ¿Qué ocurrió y qué muestran el seguimiento y la medición?"},
+{c:3,q:"En el PHVA aplicado a procesos, ¿qué pregunta responde la fase Actuar?",a:"¿Qué debemos ajustar y volver a medir?",d:["¿Qué queremos lograr y bajo qué requisitos?","¿Cómo ejecutamos los procesos y controles definidos?","¿Qué ocurrió y qué muestran el seguimiento y la medición?","¿Cómo archivamos el expediente?"],e:"A: ¿Qué debemos ajustar y volver a medir?"},
+{c:3,q:"En el caso «respuestas fuera de plazo», ¿qué se hace en la fase V (Verificar)?",a:"Comparar tiempos.",d:["Definir recorrido y plazos.","Registrar y ejecutar.","Ajustar y volver a medir.","Eliminar controles para ganar tiempo.","Sancionar a los responsables de la demora."],e:"P: definir recorrido y plazos · H: registrar y ejecutar · V: comparar tiempos · A: ajustar y volver a medir."},
+{c:3,q:"En el caso «respuestas fuera de plazo», ¿qué se hace en la fase P (Planificar)?",a:"Definir recorrido y plazos.",d:["Comparar tiempos.","Registrar y ejecutar.","Ajustar y volver a medir.","Contratar más personal.","Enviar el caso a Auditoría Interna."],e:"P: definir recorrido y plazos."},
+{c:3,q:"En el caso «respuestas fuera de plazo», ¿qué se hace en la fase A (Actuar)?",a:"Ajustar y volver a medir.",d:["Comparar tiempos.","Definir recorrido y plazos.","Registrar y ejecutar.","Archivar el reclamo.","Suprimir etapas de control jurídico."],e:"A: ajustar y volver a medir."},
+{c:3,q:"En el caso «respuestas fuera de plazo», ¿cuál es la secuencia del problema?",a:"Demora → devolución → reclamo.",d:["Reclamo → demora → devolución.","Devolución → reclamo → demora.","Registro → archivo → reclamo.","Demora → sanción → archivo.","Reclamo → auditoría → sanción."],e:"Problema: demora → devolución → reclamo."},
+{c:3,q:"Al mejorar un proceso con demoras, la Clase 3 establece como condición:",a:"Mejorar sin debilitar la legalidad, la calidad ni los controles.",d:["Eliminar los controles que retrasan el trámite.","Priorizar la velocidad aunque se reduzca la calidad.","Omitir la revisión jurídica si el plazo está vencido.","Trasladar la responsabilidad a la Auditoría Interna.","Suspender la medición hasta que baje la demanda."],e:"«Mejorar sin debilitar legalidad, calidad ni controles»."},
+{c:3,q:"¿Cuál de estos NO es un aporte del enfoque por procesos según la Clase 3?",a:"Más trámites y firmas en cada expediente.",d:["Valor público.","Control eficaz.","Mejora continua.","Interacciones.","Requisitos."],e:"Aportes: requisitos, interacciones, control eficaz, valor público y mejora continua. La gestión se orienta a resultados."},
+{c:3,q:"Según la Clase 3, gestionar por procesos conecta:",a:"El trabajo con el valor público.",d:["El organigrama con los salarios.","La Auditoría Interna con la Contraloría.","Los archivos con los expedientes.","Los cargos con las sanciones.","El presupuesto con las compras."],e:"«Gestionar por procesos conecta el trabajo con el valor público»: necesidad → proceso → valor público."},
+{c:3,q:"Con el enfoque por procesos, la gestión se orienta a:",a:"Resultados.",d:["Trámites.","Jerarquías.","Documentos.","Sanciones.","Cargos."],e:"«Aportes del enfoque por procesos: la gestión se orienta a resultados»."},
+{c:3,q:"¿Cuál es uno de los objetivos de la Clase 3?",a:"Aplicar el ciclo PHVA a un proceso institucional.",d:["Calcular la calificación MRE de la institución.","Elaborar el organigrama institucional.","Redactar la Norma de Requisitos Mínimos.","Identificar la evolución del MECIP en Paraguay.","Aprender a sancionar desvíos."],e:"Objetivos: explicar por qué los procesos fortalecen la gestión, reconocer entradas/actividades/salidas/interacciones y aplicar PHVA. (Evolución del MECIP es de la Clase 1.)"}
+];
+
+/* ---------- utilidades ---------- */
+function rnd(n){ try{ var a=new Uint32Array(1); crypto.getRandomValues(a); return a[0]%n; }catch(e){ return Math.floor(Math.random()*n); } }
+function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=rnd(i+1); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+var LETTERS="ABCDE";
+var CLASS_NAME={1:"Clase 1 · Introducción",2:"Clase 2 · Generalidades del SCI",3:"Clase 3 · Enfoque por procesos"};
+
+/* ---------- estado ---------- */
+var cfg={n:20,opts:4,mode:"end"};
+var S=null; // examen en curso
+var lastWrongIdx=[];
+var tick=null;
+
+function pool(){ var cs=[1,2,3].filter(function(c){return $("c"+c).checked;}); return BANK.map(function(q,i){return i;}).filter(function(i){return cs.indexOf(BANK[i].c)>=0;}); }
+
+function refreshSetup(){
+  var p=pool().length;
+  var max=Math.max(p,1);
+  $("nqRange").max=max; $("nq").max=max;
+  if(cfg.n>p) cfg.n=p;
+  if(cfg.n<Math.min(5,p)) cfg.n=Math.min(5,p);
+  $("nqRange").value=cfg.n; $("nq").value=cfg.n;
+  $("poolInfo").textContent="Hay "+p+" preguntas disponibles con los temas elegidos (banco total: "+BANK.length+").";
+  var pr=$("presets"); pr.innerHTML="";
+  [10,20,30,50].filter(function(v){return v<p;}).concat([p]).forEach(function(v){
+    var b=document.createElement("button"); b.type="button"; b.className="chip";
+    b.textContent=(v===p?"Todas ("+p+")":v); b.setAttribute("aria-pressed",String(cfg.n===v));
+    b.addEventListener("click",function(){cfg.n=v;refreshSetup();}); pr.appendChild(b);
+  });
+  $("start").disabled=p===0;
+  $("setupErr").textContent=p===0?"Elegí al menos un tema para armar el examen.":"";
+}
+
+function bindChips(groupId,key,parse){
+  var btns=$(groupId).querySelectorAll(".chip");
+  btns.forEach(function(b){ b.addEventListener("click",function(){
+    btns.forEach(function(x){x.setAttribute("aria-pressed","false");});
+    b.setAttribute("aria-pressed","true"); cfg[key]=parse(b.dataset.v);
+  });});
+}
+
+function buildQuestion(i){
+  var q=BANK[i];
+  var traps=shuffle(q.d).slice(0,cfg.opts-1);
+  var options=shuffle([q.a].concat(traps));
+  return {i:i,options:options,correct:options.indexOf(q.a),pick:-1};
+}
+
+function startExam(indices){
+  var list=shuffle(indices).slice(0,indices===lastWrongIdx?indices.length:cfg.n);
+  S={items:list.map(buildQuestion),cur:0,t0:Date.now(),done:false};
+  $("setup").hidden=true; $("results").hidden=true; $("exam").hidden=false;
+  $("confirmBox").innerHTML="";
+  clearInterval(tick); tick=setInterval(updTimer,1000); updTimer();
+  render(); window.scrollTo(0,0);
+}
+
+function fmt(ms){ var s=Math.floor(ms/1000); var m=Math.floor(s/60); s%=60; return (m<10?"0":"")+m+":"+(s<10?"0":"")+s; }
+function updTimer(){ if(S) $("timer").textContent="Tiempo "+fmt(Date.now()-S.t0); }
+
+function render(){
+  var it=S.items[S.cur], q=BANK[it.i], n=S.items.length;
+  var answered=S.items.filter(function(x){return x.pick>=0;}).length;
+  $("qnum").textContent="Pregunta "+(S.cur+1)+" de "+n+" · respondidas "+answered;
+  $("prog").style.width=(answered/n*100)+"%";
+  $("qtag").textContent=CLASS_NAME[q.c];
+  $("qtext").textContent=q.q;
+  var locked=cfg.mode==="now"&&it.pick>=0;
+  var box=$("opts"); box.innerHTML="";
+  it.options.forEach(function(o,k){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="l">'+LETTERS[k]+'</span><span>'+esc(o)+'</span>';
+    if(it.pick===k) b.classList.add("sel");
+    if(locked){ b.disabled=true; if(k===it.correct) b.classList.add("right"); else if(k===it.pick) b.classList.add("wrong"); }
+    b.addEventListener("click",function(){ it.pick=k; render(); });
+    box.appendChild(b);
+  });
+  var fb=$("fb"); fb.innerHTML="";
+  if(locked){
+    var ok=it.pick===it.correct;
+    fb.innerHTML='<div class="feedback '+(ok?"ok":"no")+'"><b>'+(ok?"Correcto.":"Incorrecto. La respuesta es "+LETTERS[it.correct]+".")+'</b> '+esc(q.e)+'</div>';
+  }
+  $("prev").disabled=S.cur===0;
+  $("next").textContent=S.cur===n-1?"Ver resultados →":"Siguiente →";
+  var map=$("map"); map.innerHTML="";
+  S.items.forEach(function(x,k){
+    var b=document.createElement("button"); b.type="button"; b.textContent=k+1;
+    if(x.pick>=0){ if(cfg.mode==="now") b.className=x.pick===x.correct?"ok":"no"; else b.className="ans"; }
+    if(k===S.cur) b.classList.add("cur");
+    b.setAttribute("aria-label","Ir a la pregunta "+(k+1));
+    b.addEventListener("click",function(){S.cur=k;$("confirmBox").innerHTML="";render();});
+    map.appendChild(b);
+  });
+}
+
+function askFinish(){
+  var pend=S.items.filter(function(x){return x.pick<0;}).length;
+  if(pend===0){ finish(); return; }
+  var c=$("confirmBox");
+  c.innerHTML='<div class="confirm"><p>Te faltan <b>'+pend+'</b> pregunta'+(pend>1?"s":"")+' sin responder. Se contarán como incorrectas.</p><div class="row"><button type="button" class="btn ghost" id="cNo">Seguir respondiendo</button><button type="button" class="btn dark" id="cYes">Terminar igual</button></div></div>';
+  $("cNo").addEventListener("click",function(){c.innerHTML="";});
+  $("cYes").addEventListener("click",finish);
+}
+
+function finish(){
+  clearInterval(tick);
+  var n=S.items.length, ok=0, per={1:[0,0],2:[0,0],3:[0,0]};
+  lastWrongIdx=[];
+  S.items.forEach(function(x){ var c=BANK[x.i].c; per[c][1]++; if(x.pick===x.correct){ok++;per[c][0]++;} else lastWrongIdx.push(x.i); });
+  var pct=Math.round(ok/n*100);
+  $("pct").textContent=pct+"%";
+  $("verdict").textContent=pct>=90?"Excelente, dominás el tema.":pct>=70?"Aprobado. Repasá las que fallaste.":pct>=50?"Casi. Volvé a la guía en los temas flojos.":"Hay que repasar. Empezá por la guía y el glosario.";
+  $("detail").textContent=ok+" correctas de "+n+" · tiempo "+fmt(Date.now()-S.t0)+" · "+cfg.opts+" opciones por pregunta";
+  var bc=$("byclass"); bc.innerHTML="";
+  [1,2,3].forEach(function(c){ if(!per[c][1]) return; var p=Math.round(per[c][0]/per[c][1]*100);
+    bc.insertAdjacentHTML("beforeend",'<div class="r"><span>Clase '+c+'</span><span class="track"><i style="width:'+p+'%"></i></span><span class="v">'+per[c][0]+'/'+per[c][1]+'</span></div>'); });
+  $("retryWrong").disabled=lastWrongIdx.length===0;
+  $("retryWrong").textContent=lastWrongIdx.length?"Repetir las "+lastWrongIdx.length+" falladas":"Sin preguntas falladas";
+  renderReview();
+  saveHistory(pct,ok,n);
+  $("exam").hidden=true; $("results").hidden=false; window.scrollTo(0,0);
+}
+
+function renderReview(){
+  var only=$("onlyWrong").checked, r=$("review"); r.innerHTML="";
+  S.items.forEach(function(x,k){
+    var q=BANK[x.i], good=x.pick===x.correct; if(only&&good) return;
+    var yours=x.pick<0?"Sin responder":LETTERS[x.pick]+". "+x.options[x.pick];
+    r.insertAdjacentHTML("beforeend",'<div class="ritem'+(good?"":" no")+'"><span class="qnum">'+(k+1)+' · '+esc(CLASS_NAME[q.c])+'</span><p class="q">'+esc(q.q)+'</p>'+
+      (good?'':'<p class="line"><b>TU RESPUESTA</b> '+esc(yours)+'</p>')+
+      '<p class="line"><b>CORRECTA</b> '+LETTERS[x.correct]+'. '+esc(q.a)+'</p><p class="exp">'+esc(q.e)+'</p></div>');
+  });
+  if(!r.children.length) r.innerHTML='<p class="muted">No hay preguntas incorrectas. ¡Muy bien!</p>';
+}
+
+/* historial local (solo en este navegador) */
+function saveHistory(pct,ok,n){
+  try{ var h=JSON.parse(localStorage.getItem("mecip-hist")||"[]"); h.unshift({p:pct,ok:ok,n:n,d:Date.now()}); localStorage.setItem("mecip-hist",JSON.stringify(h.slice(0,20))); }catch(e){}
+  showHistory();
+}
+function showHistory(){
+  var el=$("history"); el.innerHTML="";
+  try{ var h=JSON.parse(localStorage.getItem("mecip-hist")||"[]"); if(!h.length) return;
+    var best=Math.max.apply(null,h.map(function(x){return x.p;}));
+    el.innerHTML='<span>Intentos en este navegador: <b>'+h.length+'</b></span><span>Último: <b>'+h[0].p+'%</b> ('+h[0].ok+'/'+h[0].n+')</span><span>Mejor: <b>'+best+'%</b></span>';
+  }catch(e){}
+}
+
+/* ---------- eventos ---------- */
+$("nqRange").addEventListener("input",function(){cfg.n=+this.value;refreshSetup();});
+$("nq").addEventListener("change",function(){var v=parseInt(this.value,10);cfg.n=isNaN(v)?20:v;refreshSetup();});
+[1,2,3].forEach(function(c){$("c"+c).addEventListener("change",refreshSetup);});
+bindChips("nopts","opts",function(v){return +v;});
+bindChips("mode","mode",function(v){return v;});
+$("start").addEventListener("click",function(){ if(pool().length) startExam(pool()); });
+$("prev").addEventListener("click",function(){ if(S.cur>0){S.cur--;$("confirmBox").innerHTML="";render();} });
+$("next").addEventListener("click",function(){ if(S.cur<S.items.length-1){S.cur++;$("confirmBox").innerHTML="";render();window.scrollTo(0,0);} else askFinish(); });
+$("finish").addEventListener("click",askFinish);
+$("again").addEventListener("click",function(){ startExam(pool()); });
+$("retryWrong").addEventListener("click",function(){ if(lastWrongIdx.length) startExam(lastWrongIdx); });
+$("toSetup").addEventListener("click",function(){ $("results").hidden=true; $("setup").hidden=false; refreshSetup(); });
+$("onlyWrong").addEventListener("change",renderReview);
+document.addEventListener("keydown",function(ev){
+  if($("exam").hidden||ev.target.tagName==="INPUT") return;
+  var k=ev.key.toUpperCase(), idx=LETTERS.indexOf(k);
+  if(idx<0&&/^[1-5]$/.test(k)) idx=+k-1;
+  var it=S.items[S.cur];
+  if(idx>=0&&idx<it.options.length&&!(cfg.mode==="now"&&it.pick>=0)){ it.pick=idx; render(); }
+  else if(ev.key==="ArrowRight"){ $("next").click(); }
+  else if(ev.key==="ArrowLeft"){ $("prev").click(); }
+});
+
+refreshSetup(); showHistory();
+</script>
+</body>
+</html>
