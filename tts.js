@@ -49,8 +49,18 @@
 
   /* ---------- texto ---------- */
   var REPL = [
-    [/\bSCI\b/g,"ese ce i"],[/\bPHVA\b/g,"pe, hache, uve, a"],[/\bNRM\b/g,"ene erre eme"],
-    [/\bCGR\b/g,"ce ge erre"],[/\bMRE\b/g,"eme erre e"],[/\bN\.\s?°\s?/g,"número "],
+    /* siglas: se leen con su nombre completo */
+    [/\s*\((SCI|NRM|CGR|MECIP|PHVA)\)/g,""],
+    [/\bsigla PHVA\b/g,"sigla pe, hache, uve, a"],
+    [/\bSCI\b/g,"Sistema de Control Interno"],
+    [/\bPHVA\b/g,"Planificar, Hacer, Verificar y Actuar"],
+    [/\bNRM\b/g,"Norma de Requisitos Mínimos"],
+    [/\b(Res\.|Resolución)\s+CGR\b/g,"Resolución de la Contraloría General de la República"],
+    [/(\d+)\/(\d{4})\b/g,"$1 del año $2"],
+    [/\bCGR\b/g,"Contraloría General de la República"],
+    [/\bMECIP\b/g,"Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay"],
+    [/\bMRE\b/g,"eme erre e"],
+    [/\bN\.\s?°\s?/g,"número "],
     [/\bRes\.\s/g,"Resolución "],[/\bEj\.:?/g,"Ejemplo:"],[/\bvs\.\s?/g,"versus "],[/\bU(\d)\b/g,"Unidad $1"],
     [/≠/g," es distinto de "],[/[→›]/g,", "],[/·/g,", "],[/[«»"“”]/g,""],[/\s*\+\s*/g," más "],[/\s=\s/g," igual a "],
     [/---/g,"sin equivalente"]
