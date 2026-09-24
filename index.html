@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Guía MECIP · Clases 1 a 3</title>
+<title>Guía de Control Interno</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@87,500;87,700;87,800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
@@ -123,7 +123,7 @@ tr{break-inside:avoid}
 .timeline b{font-family:var(--display);font-size:22px;display:block;margin-top:4px}
 .timeline span{font-size:14px;color:var(--muted);display:block;line-height:1.4}
 
-/* gráfico MRE */
+/* gráfico de calificaciones */
 .chart{margin:18px 0;break-inside:avoid}
 .bars{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:end;height:180px;border-bottom:1px solid var(--ink);position:relative}
 .bar{background:var(--accent);border-radius:3px 3px 0 0;position:relative;min-height:2px}
@@ -132,7 +132,7 @@ tr{break-inside:avoid}
 .gridline i{position:absolute;right:0;top:-14px;font-style:normal}
 .years{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;text-align:center;font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:4px}
 
-/* PHVA */
+/* ciclo Planificar-Hacer-Verificar-Actuar */
 .phva{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0}
 .phva .card{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start}
 .phva .letter{font-family:var(--display);font-weight:800;font-size:30px;line-height:1;width:44px;height:44px;border-radius:8px;background:var(--ink);color:var(--sheet);display:grid;place-items:center}
@@ -207,17 +207,17 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
     <li><a href="#resumen">Resumen en una página</a></li>
     <li><a href="#clase1">Clase 1 · Introducción</a></li>
     <li class="sub"><a class="sub" href="#c1-que-es">Qué es el control interno</a></li>
-    <li class="sub"><a class="sub" href="#c1-evolucion">Evolución del MECIP</a></li>
-    <li class="sub"><a class="sub" href="#c1-mre">Calificaciones MRE</a></li>
-    <li><a href="#clase2">Clase 2 · Generalidades del SCI</a></li>
-    <li class="sub"><a class="sub" href="#c2-phva">Modelo PHVA</a></li>
+    <li class="sub"><a class="sub" href="#c1-evolucion">Evolución del Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay</a></li>
+    <li class="sub"><a class="sub" href="#c1-mre">Calificaciones del Ministerio de Relaciones Exteriores</a></li>
+    <li><a href="#clase2">Clase 2 · Generalidades del Sistema de Control Interno</a></li>
+    <li class="sub"><a class="sub" href="#c2-phva">Ciclo Planificar-Hacer-Verificar-Actuar</a></li>
     <li class="sub"><a class="sub" href="#c2-principios">Principios</a></li>
     <li class="sub"><a class="sub" href="#c2-caracteristicas">Características</a></li>
     <li class="sub"><a class="sub" href="#c2-responsabilidades">Responsabilidades</a></li>
     <li><a href="#clase3">Clase 3 · Enfoque por procesos</a></li>
     <li class="sub"><a class="sub" href="#c3-proceso">Qué es un proceso</a></li>
     <li class="sub"><a class="sub" href="#c3-mapa">Mapa de procesos</a></li>
-    <li class="sub"><a class="sub" href="#c3-phva">PHVA en procesos</a></li>
+    <li class="sub"><a class="sub" href="#c3-phva">El ciclo en los procesos</a></li>
     <li><a href="#glosario">Glosario</a></li>
     <li><a href="#trampas">Confusiones frecuentes</a></li>
   </ol>
@@ -233,8 +233,8 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 <header>
   <div class="eyebrow">Curso de Perfeccionamiento · Control de la Gestión Pública</div>
   <h1>Guía de estudio<br>Clases 1, 2 y 3</h1>
-  <p class="lead">Control interno, Sistema de Control Interno (SCI) y enfoque basado en procesos, según el MECIP 2015. Cada tema trae la definición de la clase y una explicación en palabras simples.</p>
-  <div class="meta"><span>Unidad I · Introducción</span><span>Unidad II · Generalidades del SCI</span><span>Unidad III · Enfoque basado en procesos</span></div>
+  <p class="lead">Control interno, Sistema de Control Interno y enfoque basado en procesos, según el Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015. Cada tema trae la definición de la clase y una explicación en palabras simples.</p>
+  <div class="meta"><span>Unidad I · Introducción</span><span>Unidad II · Generalidades del Sistema de Control Interno</span><span>Unidad III · Enfoque basado en procesos</span></div>
   <div class="print-bar">
     <button type="button" class="js-print">Imprimir / Guardar como PDF</button>
     <span>Se imprime en hojas A4. Para obtener un PDF, elegí «Guardar como PDF» como destino. Atajo: <kbd>Ctrl</kbd> + <kbd>P</kbd> (en Mac <kbd>⌘</kbd> + <kbd>P</kbd>).</span>
@@ -251,16 +251,16 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
       <li>El <b>control interno</b> es un conjunto de normas, principios, acciones y procesos que realizan autoridades, administración y funcionarios.</li>
       <li>Es un <b>medio</b> (no un fin) para una función del Estado <b>íntegra, eficaz y transparente</b>.</li>
       <li>Es la <b>primera línea de defensa</b> de los activos. Su enfoque es preventivo, integral y continuo.</li>
-      <li>Historia: prácticas heterogéneas → <b>MECIP 2008</b> → <b>MECIP 2015</b> → <b>Res. CGR N.° 377/2016</b> (adopta la NRM).</li>
-      <li>MECIP 2015 define el <b>«qué»</b> controlar; cada institución decide el <b>«cómo»</b>. Se basa en <b>procesos</b> y <b>riesgos</b>.</li>
+      <li>Historia: prácticas heterogéneas → <b>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2008</b> → <b>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015</b> → <b>Resolución de la Contraloría General de la República N.° 377/2016</b> (adopta la Norma de Requisitos Mínimos).</li>
+      <li>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015 define el <b>«qué»</b> controlar; cada institución decide el <b>«cómo»</b>. Se basa en <b>procesos</b> y <b>riesgos</b>.</li>
       <li>2008: 3 componentes corporativos, 9 componentes, 29 estándares. 2015: 5 componentes, 16 principios, 9 elementos.</li>
     </ul>
   </section>
   <section>
-    <h4>Clase 2 · Generalidades del SCI</h4>
+    <h4>Clase 2 · Generalidades del Sistema de Control Interno</h4>
     <ul>
-      <li>El SCI <b>no es</b> un conjunto de controles aislados; <b>es</b> un sistema integrado a la gestión.</li>
-      <li>Comprende a <b>toda la organización</b> y funciona con el ciclo <b>PHVA</b>.</li>
+      <li>El Sistema de Control Interno <b>no es</b> un conjunto de controles aislados; <b>es</b> un sistema integrado a la gestión.</li>
+      <li>Comprende a <b>toda la organización</b> y funciona con el ciclo <b>Planificar-Hacer-Verificar-Actuar</b>.</li>
       <li>Da <b>seguridad razonable</b>, no absoluta: reduce la posibilidad de errores, no los elimina.</li>
       <li>Principios: <b>autocontrol</b> (la persona), <b>autorregulación</b> (las reglas propias), <b>autogestión</b> (la institución se organiza y evalúa).</li>
       <li>Características: integral, permanente, dinámico, orientado a objetivos, participativo, sujeto a evaluación y mejora.</li>
@@ -282,13 +282,13 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 
 <!-- ============ CLASE 1 ============ -->
 <h2 id="clase1"><span class="eyebrow">Clase 1 · Unidad I</span>Introducción al Control de la Gestión Pública</h2>
-<p>Objetivos de la clase: <b>comprender</b> el concepto de control interno, <b>identificar</b> la evolución del MECIP en Paraguay y <b>reconocer</b> el marco normativo que implementa el SCI.</p>
+<p>Objetivos de la clase: <b>comprender</b> el concepto de control interno, <b>identificar</b> la evolución del Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay en Paraguay y <b>reconocer</b> el marco normativo que implementa el Sistema de Control Interno.</p>
 
 <div class="box">
   <h4 style="margin-top:0">Plan del curso (9 unidades)</h4>
   <div class="flow">
     <div class="step"><span class="n">U1</span>Introducción</div>
-    <div class="step"><span class="n">U2</span>Generalidades del SCI</div>
+    <div class="step"><span class="n">U2</span>Generalidades del Sistema de Control Interno</div>
     <div class="step"><span class="n">U3</span>Enfoque en procesos</div>
     <div class="step"><span class="n">U4</span>Enfoque en riesgos</div>
     <div class="step"><span class="n">U5</span>Ambiente de Control</div>
@@ -297,7 +297,7 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
     <div class="step"><span class="n">U8</span>Control de Evaluación</div>
     <div class="step"><span class="n">U9</span>Control para la Mejora</div>
   </div>
-  <p style="font-size:15px">Las unidades 5 a 9 son los <b>5 componentes del MECIP 2015</b>. Esta guía cubre las unidades 1 a 3.</p>
+  <p style="font-size:15px">Las unidades 5 a 9 son los <b>5 componentes del Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015</b>. Esta guía cubre las unidades 1 a 3.</p>
 </div>
 
 <h3 id="c1-que-es">¿Qué es el control interno?</h3>
@@ -341,17 +341,17 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 </div>
 
 <h3 id="c1-evolucion">Evolución del control interno en Paraguay</h3>
-<p>Del MECIP 2008 al MECIP 2015 hubo un proceso de aprendizaje y fortalecimiento.</p>
+<p>Del Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2008 al Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015 hubo un proceso de aprendizaje y fortalecimiento.</p>
 <div class="timeline">
   <div><b>Antes</b><span>Prácticas heterogéneas: cada institución controlaba a su manera.</span></div>
-  <div><b>2008</b><span>MECIP 2008: primer modelo estandarizado.</span></div>
-  <div><b>2015</b><span>MECIP 2015: procesos, riesgos y mejora continua.</span></div>
-  <div><b>2016</b><span>Resolución CGR N.° 377/2016.</span></div>
+  <div><b>2008</b><span>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2008: primer modelo estandarizado.</span></div>
+  <div><b>2015</b><span>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015: procesos, riesgos y mejora continua.</span></div>
+  <div><b>2016</b><span>Resolución de la Contraloría General de la República N.° 377/2016.</span></div>
 </div>
-<div class="box simple"><span class="tag">¿Qué es MECIP?</span>
-<p><b>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay.</b> Es el «molde» común que siguen las instituciones públicas para organizar su control interno.</p></div>
+<div class="box simple"><span class="tag">¿Qué es este modelo?</span>
+<p>El <b>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay</b> es el «molde» común que siguen las instituciones públicas para organizar su control interno.</p></div>
 
-<h4>MECIP 2008: aportes y desafíos</h4>
+<h4>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2008: aportes y desafíos</h4>
 <div class="two">
   <div class="vs si"><b>Aportes</b><ul><li>Criterios comunes</li><li>Responsabilidades definidas</li><li>Procesos documentados</li></ul></div>
   <div class="vs no"><b>Desafíos</b><ul><li>Complejidad de requisitos</li><li>Exceso documental</li><li>Controles desactualizados</li></ul></div>
@@ -363,14 +363,14 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 <div class="box trap"><span class="tag">Qué pasa si no se revisan los controles</span>
 <p>Aparecen <b>duplicidades, retrasos, criterios diferentes y riesgos sin respuesta</b>.</p></div>
 
-<h4>Resolución CGR N.° 377/2016</h4>
+<h4>Resolución de la Contraloría General de la República N.° 377/2016</h4>
 <div class="two">
-  <div class="card"><b>La Resolución</b><p>Adopta oficialmente la <b>Norma de Requisitos Mínimos (NRM)</b> para un SCI. La NRM define los requerimientos básicos para un sistema efectivo de control interno.</p></div>
-  <div class="card"><b>+ Manual MECIP 2015</b><p>Desarrolla la <b>orientación técnica y metodológica</b>: explica cómo aplicar la norma.</p></div>
+  <div class="card"><b>La Resolución</b><p>Adopta oficialmente la <b>Norma de Requisitos Mínimos</b> para un Sistema de Control Interno. La Norma de Requisitos Mínimos define los requerimientos básicos para un sistema efectivo de control interno.</p></div>
+  <div class="card"><b>+ Manual del Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015</b><p>Desarrolla la <b>orientación técnica y metodológica</b>: explica cómo aplicar la norma.</p></div>
 </div>
-<p class="box simple" style="max-width:none"><span class="tag">En palabras simples</span>La Contraloría General de la República (CGR) dijo en 2016: «estos son los requisitos mínimos obligatorios» (NRM), y el Manual es la guía práctica para cumplirlos.</p>
+<p class="box simple" style="max-width:none"><span class="tag">En palabras simples</span>La Contraloría General de la República dijo en 2016: «estos son los requisitos mínimos obligatorios», y el Manual es la guía práctica para cumplirlos.</p>
 
-<h4>¿En qué se enfoca el MECIP 2015?</h4>
+<h4>¿En qué se enfoca el Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015?</h4>
 <ul>
   <li>Facilitar la implementación y consolidación.</li>
   <li>Adaptar el modelo a las necesidades de cada institución.</li>
@@ -385,15 +385,15 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 <div class="tbl"><table>
   <thead><tr><th>Modelo</th><th class="num">Nivel 1</th><th class="num">Nivel 2</th><th class="num">Nivel 3</th></tr></thead>
   <tbody>
-    <tr><td><b>MECIP 2008</b></td><td class="num">3 componentes corporativos</td><td class="num">9 componentes</td><td class="num">29 estándares</td></tr>
-    <tr><td><b>MECIP 2015</b></td><td class="num">5 componentes</td><td class="num">16 principios</td><td class="num">9 elementos</td></tr>
+    <tr><td><b>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2008</b></td><td class="num">3 componentes corporativos</td><td class="num">9 componentes</td><td class="num">29 estándares</td></tr>
+    <tr><td><b>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015</b></td><td class="num">5 componentes</td><td class="num">16 principios</td><td class="num">9 elementos</td></tr>
   </tbody>
 </table></div>
 <div class="box simple"><span class="tag">Truco para memorizar</span><p><b>2008 → 3 · 9 · 29</b> (termina en 9 dos veces). <b>2015 → 5 · 16 · 9</b> (empieza con el 5 del año).</p></div>
 
 <p>Algunas equivalencias de requisitos entre ambos modelos (tabla de la clase):</p>
 <div class="tbl"><table>
-  <thead><tr><th>MECIP 2008</th><th>MECIP 2015</th></tr></thead>
+  <thead><tr><th>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2008</th><th>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015</th></tr></thead>
   <tbody>
     <tr><td><span class="code">---</span> Acta de compromiso</td><td><span class="code">I.A.1</span> Compromisos de la Alta Dirección · <span class="code">I.A.1.1</span> Política de Control Interno</td></tr>
     <tr><td><span class="code">1.2.2</span> Modelo de gestión por procesos</td><td><span class="code">II.B.2</span> Gestión por Procesos</td></tr>
@@ -407,8 +407,8 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 </table></div>
 <p style="font-size:15px;color:var(--muted)">Lo que muestra la tabla: el 2015 <b>junta</b> varios requisitos del 2008 en uno solo y elimina documentos, en línea con la idea de simplificar.</p>
 
-<h3 id="c1-mre">Últimas calificaciones del MRE</h3>
-<p>Avance promedio en los últimos años y escala de criterios:</p>
+<h3 id="c1-mre">Últimas calificaciones del Ministerio de Relaciones Exteriores</h3>
+<p>Avance del Ministerio de Relaciones Exteriores en los últimos años y escala de criterios:</p>
 <div class="two">
   <div class="chart" role="img" aria-label="Calificaciones: 2019 2,61; 2020 2,05; 2021 2,02; 2022 2,04; 2023 2,23; 2024 2,59, en escala de 0 a 3">
     <div class="bars">
@@ -443,20 +443,20 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
   <li>Forma parte de las actividades cotidianas.</li>
   <li>Su enfoque es preventivo, integral y continuo.</li>
   <li>La responsabilidad es compartida por toda la organización.</li>
-  <li>MECIP 2015 integra procesos, riesgos y mejora continua.</li>
+  <li>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015 integra procesos, riesgos y mejora continua.</li>
 </ol>
 <div class="box simple"><span class="tag">Frase de cierre</span><p>El control interno <b>no es un fin en sí mismo</b>. Es un medio para mejorar la gestión pública.</p></div>
 
 <!-- ============ CLASE 2 ============ -->
-<h2 id="clase2"><span class="eyebrow">Clase 2 · Unidad II</span>Generalidades del Sistema de Control Interno (SCI)</h2>
-<p>Objetivos: <b>comprender</b> qué es el SCI, <b>identificar</b> sus objetivos y características, y <b>reconocer</b> principios y responsabilidades.</p>
+<h2 id="clase2"><span class="eyebrow">Clase 2 · Unidad II</span>Generalidades del Sistema de Control Interno</h2>
+<p>Objetivos: <b>comprender</b> qué es el Sistema de Control Interno, <b>identificar</b> sus objetivos y características, y <b>reconocer</b> principios y responsabilidades.</p>
 
 <div class="two">
-  <div class="vs no"><b>El SCI no es</b><p style="margin:4px 0 0">Un conjunto de controles aislados.</p></div>
-  <div class="vs si"><b>El SCI sí es</b><p style="margin:4px 0 0">Un sistema integrado a la gestión institucional.</p></div>
+  <div class="vs no"><b>El Sistema de Control Interno no es</b><p style="margin:4px 0 0">Un conjunto de controles aislados.</p></div>
+  <div class="vs si"><b>El Sistema de Control Interno sí es</b><p style="margin:4px 0 0">Un sistema integrado a la gestión institucional.</p></div>
 </div>
 
-<h3>¿Qué es el SCI?</h3>
+<h3>¿Qué es el Sistema de Control Interno?</h3>
 <div class="box def"><span class="tag">Definición de la clase</span>
 <p>Conjunto organizado de planes, métodos, políticas, procedimientos, prácticas, recursos y acciones que interactúan entre sí. Forma parte de la gestión institucional, contribuye al cumplimiento de la misión y de los objetivos institucionales y comprende a toda la organización.</p></div>
 <div class="grid">
@@ -465,10 +465,10 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
   <div class="card"><b>Gestión</b><p>Forma parte de la gestión institucional.</p></div>
   <div class="card"><b>Resultados</b><p>Contribuye a la misión y a los objetivos.</p></div>
 </div>
-<div class="box simple"><span class="tag">En palabras simples</span><p>Un solo control (por ejemplo, una firma) no es un sistema. El SCI es cuando <b>todos los controles están conectados</b> entre sí y con el trabajo diario, como los engranajes de un reloj.</p></div>
+<div class="box simple"><span class="tag">En palabras simples</span><p>Un solo control (por ejemplo, una firma) no es un sistema. El Sistema de Control Interno es cuando <b>todos los controles están conectados</b> entre sí y con el trabajo diario, como los engranajes de un reloj.</p></div>
 
-<h3 id="c2-phva">El modelo del SCI: ciclo PHVA</h3>
-<p>PHVA significa <b>Planificar, Hacer, Verificar, Actuar</b>. Cada fase del ciclo se relaciona con un componente del MECIP 2015; el <b>Ambiente de Control</b> acompaña todo el ciclo.</p>
+<h3 id="c2-phva">El modelo del Sistema de Control Interno: ciclo Planificar-Hacer-Verificar-Actuar</h3>
+<p>El ciclo tiene cuatro fases: <b>Planificar, Hacer, Verificar y Actuar</b>. Cada fase del ciclo se relaciona con un componente del Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015; el <b>Ambiente de Control</b> acompaña todo el ciclo.</p>
 <div class="phva">
   <div class="card"><span class="letter">P</span><div><b>Planificar → Control de la Planificación</b><p>Establecer los objetivos y procesos necesarios para conseguir resultados según las políticas y los requisitos (incluidos los legales), e <b>identificar los riesgos</b> para definir los controles operacionales.</p></div></div>
   <div class="card"><span class="letter">H</span><div><b>Hacer → Control de la Implementación</b><p>Implementar los procesos y controles definidos.</p></div></div>
@@ -487,15 +487,15 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 </div>
 <p><b>El control aparece en cada una de estas etapas</b>, no solo al final.</p>
 
-<h3>Objetivos del SCI</h3>
-<div class="box trap"><span class="tag">Pregunta clave de la clase</span><p>¿Un SCI eficaz significa que jamás ocurrirá un error? <b>No.</b> El SCI da <b>seguridad razonable</b>, no absoluta.</p></div>
+<h3>Objetivos del Sistema de Control Interno</h3>
+<div class="box trap"><span class="tag">Pregunta clave de la clase</span><p>¿Un Sistema de Control Interno eficaz significa que jamás ocurrirá un error? <b>No.</b> El Sistema de Control Interno da <b>seguridad razonable</b>, no absoluta.</p></div>
 <div class="grid">
   <div class="card"><b>Seguridad razonable</b><p>No elimina todos los errores; <b>reduce razonablemente</b> la posibilidad de que afecten los objetivos.</p></div>
   <div class="card"><b>Objetivos</b><p>Los controles deben estar vinculados con lo que la institución pretende lograr.</p></div>
   <div class="card"><b>Recursos públicos</b><p>Contribuye a su administración efectiva y a la protección de los activos.</p></div>
 </div>
 
-<h3 id="c2-principios">Principios que sustentan el SCI</h3>
+<h3 id="c2-principios">Principios que sustentan el Sistema de Control Interno</h3>
 <p>Son los tres «auto», fundamentos esenciales y pilares de un control efectivo. La clave es <b>quién</b> actúa en cada uno.</p>
 <div class="grid">
   <div class="card"><b>Autocontrol · la persona</b><p>Cada funcionario controla su propio trabajo, identifica desviaciones y actúa a tiempo dentro de sus responsabilidades.</p><p class="ex">Ej.: reviso mi planilla antes de enviarla y corrijo un monto mal cargado.</p></div>
@@ -503,7 +503,7 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
   <div class="card"><b>Autogestión · la institución</b><p>Capacidad institucional para interpretar, coordinar, aplicar y evaluar de manera efectiva sus funciones, orientándolas a la misión y los objetivos.</p><p class="ex">Ej.: la institución coordina sus áreas y evalúa si está cumpliendo su misión.</p></div>
 </div>
 
-<h3 id="c2-caracteristicas">Características del SCI</h3>
+<h3 id="c2-caracteristicas">Características del Sistema de Control Interno</h3>
 <p>Un sistema eficaz debe ser:</p>
 <div class="grid">
   <div class="card"><b>Integral</b><p>Abarca los distintos procesos y actividades de la organización.</p></div>
@@ -530,7 +530,7 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 <div class="tbl"><table>
   <thead><tr><th>Quién</th><th>En una frase</th><th>Qué hace</th></tr></thead>
   <tbody>
-    <tr><td><b>Máxima Autoridad y Equipo Directivo</b></td><td>Conducen</td><td>Conducen el SCI, establecen objetivos y evalúan su funcionamiento.</td></tr>
+    <tr><td><b>Máxima Autoridad y Equipo Directivo</b></td><td>Conducen</td><td>Conducen el Sistema de Control Interno, establecen objetivos y evalúan su funcionamiento.</td></tr>
     <tr><td><b>Directivos</b></td><td>Gestionan procesos</td><td>Incorporan el control a los procesos a su cargo, supervisan y promueven mejoras.</td></tr>
     <tr><td><b>Servidores</b></td><td>Aplican controles</td><td>Cumplen funciones, aplican procedimientos, observan controles y comunican situaciones relevantes.</td></tr>
     <tr><td><b>Auditoría Interna</b></td><td>Evalúa con independencia</td><td>Cumple una función específica de evaluación independiente.</td></tr>
@@ -541,7 +541,7 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 
 <h3>Ideas clave de la Clase 2</h3>
 <ol class="keys">
-  <li>El SCI está integrado a la gestión institucional.</li>
+  <li>El Sistema de Control Interno está integrado a la gestión institucional.</li>
   <li>Busca contribuir al logro de objetivos y administrar recursos públicos.</li>
   <li>Se sustenta en autocontrol, autorregulación y autogestión.</li>
   <li>Debe ser integral, permanente, dinámico, participativo y mejorable.</li>
@@ -550,7 +550,7 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 
 <!-- ============ CLASE 3 ============ -->
 <h2 id="clase3"><span class="eyebrow">Clase 3 · Unidad III</span>Enfoque basado en procesos</h2>
-<p>Del control integrado a la gestión por procesos. Objetivos: <b>explicar</b> por qué los procesos fortalecen la gestión y el control, <b>reconocer</b> entradas, actividades, salidas e interacciones, y <b>aplicar</b> el ciclo PHVA a un proceso institucional.</p>
+<p>Del control integrado a la gestión por procesos. Objetivos: <b>explicar</b> por qué los procesos fortalecen la gestión y el control, <b>reconocer</b> entradas, actividades, salidas e interacciones, y <b>aplicar</b> el ciclo Planificar-Hacer-Verificar-Actuar a un proceso institucional.</p>
 
 <h3>El control interno se integra a los procesos</h3>
 <div class="two">
@@ -620,8 +620,8 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
   <div class="card"><b>Mapa de procesos</b><p>Flujos, interacciones y contribución a la misión (entrada → proceso → resultado).</p></div>
 </div>
 
-<h3 id="c3-phva">Ciclo PHVA aplicado a los procesos</h3>
-<p>El PHVA conecta gestión, control y mejora. El ciclo vuelve a empezar con información y decisiones mejores. Cada fase responde una pregunta:</p>
+<h3 id="c3-phva">Ciclo Planificar-Hacer-Verificar-Actuar aplicado a los procesos</h3>
+<p>El ciclo Planificar-Hacer-Verificar-Actuar conecta gestión, control y mejora. El ciclo vuelve a empezar con información y decisiones mejores. Cada fase responde una pregunta:</p>
 <div class="phva">
   <div class="card"><span class="letter">P</span><div><b>Planificar</b><p>¿Qué queremos lograr y bajo qué requisitos?</p></div></div>
   <div class="card"><span class="letter">H</span><div><b>Hacer</b><p>¿Cómo ejecutamos los procesos y controles definidos?</p></div></div>
@@ -632,7 +632,7 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 <h4>Caso aplicado: respuestas fuera de plazo</h4>
 <p><b>Problema:</b> demora → devolución → reclamo.</p>
 <div class="tbl"><table>
-  <thead><tr><th>Fase</th><th>Respuesta PHVA</th></tr></thead>
+  <thead><tr><th>Fase</th><th>Respuesta del ciclo</th></tr></thead>
   <tbody>
     <tr><td><b>P</b></td><td>Definir recorrido y plazos</td></tr>
     <tr><td><b>H</b></td><td>Registrar y ejecutar</td></tr>
@@ -649,28 +649,29 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
   <dt>Activos</dt><dd>Todo lo que la institución tiene y debe cuidar: dinero, bienes, equipos, información.</dd>
   <dt>Actividad</dt><dd>El nivel más pequeño del proceso: una acción o un grupo acotado de tareas.</dd>
   <dt>Agregar valor</dt><dd>Transformar una necesidad en un resultado útil, oportuno y confiable.</dd>
-  <dt>Ambiente de Control</dt><dd>Componente del MECIP 2015 que acompaña todo el ciclo PHVA. Se estudia en la Unidad 5.</dd>
-  <dt>Auditoría Interna</dt><dd>Área que evalúa el SCI con independencia. No es la dueña del control; cumple una función específica.</dd>
+  <dt>Ambiente de Control</dt><dd>Componente del Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015 que acompaña todo el ciclo Planificar-Hacer-Verificar-Actuar. Se estudia en la Unidad 5.</dd>
+  <dt>Auditoría Interna</dt><dd>Área que evalúa el Sistema de Control Interno con independencia. No es la dueña del control; cumple una función específica.</dd>
   <dt>Autocontrol</dt><dd>Cada funcionario revisa su propio trabajo, detecta desvíos y los corrige a tiempo.</dd>
   <dt>Autogestión</dt><dd>La institución sabe interpretar, coordinar, aplicar y evaluar sus funciones para cumplir su misión.</dd>
   <dt>Autorregulación</dt><dd>La institución se pone sus propias reglas y procedimientos, siempre dentro de la ley.</dd>
   <dt>Cadena de valor</dt><dd>El recorrido necesidad → entrada → actividades → controles → salida/valor.</dd>
-  <dt>CGR</dt><dd>Contraloría General de la República. Emitió la Resolución N.° 377/2016.</dd>
+  <dt>Contraloría General de la República</dt><dd>Órgano de control del Estado paraguayo. Sigla: CGR. Emitió la Resolución N.° 377/2016.</dd>
   <dt>Control interno</dt><dd>Normas, principios, acciones y procesos que realizan autoridades y funcionarios para que la institución funcione de forma íntegra, eficaz y transparente.</dd>
   <dt>Destinatario</dt><dd>Quien recibe la salida del proceso: el ciudadano u otra área.</dd>
   <dt>Entrada</dt><dd>Lo que inicia un proceso: una solicitud, datos, documentos, requisitos.</dd>
   <dt>Macroproceso</dt><dd>Las grandes familias de procesos: estratégicos, misionales y de apoyo.</dd>
   <dt>Mandato institucional</dt><dd>Lo que la ley le encarga hacer a la institución; su razón de ser.</dd>
   <dt>Mapa de procesos</dt><dd>Dibujo de los procesos y cómo se conectan. Muestra flujos, no jerarquías.</dd>
-  <dt>MECIP</dt><dd>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay. Versiones 2008 y 2015.</dd>
+  <dt>Ministerio de Relaciones Exteriores</dt><dd>Sigla: MRE. Institución cuyas calificaciones de control interno de 2019 a 2024 se analizan en la Clase 1.</dd>
+  <dt>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay</dt><dd>El modelo común de control interno del sector público. Sigla: MECIP. Versiones 2008 y 2015.</dd>
   <dt>Mejora continua</dt><dd>Revisar y ajustar siempre, sin esperar a que algo falle gravemente.</dd>
-  <dt>NRM</dt><dd>Norma de Requisitos Mínimos para un SCI. Dice qué es obligatorio controlar. La adoptó la Res. CGR N.° 377/2016.</dd>
+  <dt>Norma de Requisitos Mínimos</dt><dd>Norma para un Sistema de Control Interno. Sigla: NRM. Dice qué es obligatorio controlar. La adoptó la Resolución de la Contraloría General de la República N.° 377/2016.</dd>
   <dt>Organigrama</dt><dd>Dibujo de las unidades de la institución y quién depende de quién.</dd>
-  <dt>PHVA</dt><dd>Planificar, Hacer, Verificar, Actuar. El ciclo de gestión y mejora del SCI.</dd>
+  <dt>Planificar, Hacer, Verificar, Actuar</dt><dd>Sigla: PHVA. El ciclo de gestión y mejora del Sistema de Control Interno.</dd>
   <dt>Proceso</dt><dd>Entrada + transformación = salida para un destinatario.</dd>
   <dt>Salida</dt><dd>El resultado que produce el proceso.</dd>
-  <dt>SCI</dt><dd>Sistema de Control Interno: todos los controles conectados entre sí y con la gestión.</dd>
-  <dt>Seguridad razonable</dt><dd>El SCI reduce mucho la probabilidad de errores, pero no garantiza que nunca ocurran.</dd>
+  <dt>Sistema de Control Interno</dt><dd>Sigla: SCI. Todos los controles conectados entre sí y con la gestión.</dd>
+  <dt>Seguridad razonable</dt><dd>El Sistema de Control Interno reduce mucho la probabilidad de errores, pero no garantiza que nunca ocurran.</dd>
   <dt>Subproceso</dt><dd>Parte definida de un proceso que facilita su análisis y control.</dd>
   <dt>Trazabilidad</dt><dd>Poder seguir el rastro de un trámite: quién hizo qué, cuándo y con qué respaldo.</dd>
   <dt>Valor público</dt><dd>El beneficio real que recibe la ciudadanía gracias al trabajo de la institución.</dd>
@@ -683,21 +684,21 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
   <thead><tr><th>Idea equivocada</th><th>Lo correcto</th></tr></thead>
   <tbody>
     <tr><td>El control interno es tarea de Auditoría Interna.</td><td>Es de toda la organización. Auditoría Interna <b>evalúa con independencia</b>.</td></tr>
-    <tr><td>La Contraloría conduce el SCI de cada institución.</td><td>Lo establecen y conducen la <b>Máxima Autoridad y el Equipo Directivo</b>.</td></tr>
-    <tr><td>Un buen SCI garantiza cero errores.</td><td>Da <b>seguridad razonable</b>, no absoluta.</td></tr>
+    <tr><td>La Contraloría conduce el Sistema de Control Interno de cada institución.</td><td>Lo establecen y conducen la <b>Máxima Autoridad y el Equipo Directivo</b>.</td></tr>
+    <tr><td>Un buen Sistema de Control Interno garantiza cero errores.</td><td>Da <b>seguridad razonable</b>, no absoluta.</td></tr>
     <tr><td>El control es un fin en sí mismo.</td><td>Es un <b>medio</b> para mejorar la gestión pública.</td></tr>
     <tr><td>El control se hace al final, cuando el resultado ya salió.</td><td>Va <b>dentro del proceso</b>, en cada etapa.</td></tr>
-    <tr><td>MECIP 2015 dice «cómo» hacer cada control.</td><td>Define el <b>«qué»</b>; el <b>«cómo»</b> lo decide cada institución.</td></tr>
-    <tr><td>La Res. 377 es de 2015.</td><td>Es de <b>2016</b>. El MECIP es 2015; la resolución que adopta la NRM, 2016.</td></tr>
-    <tr><td>MECIP 2015: 5 componentes, 9 principios, 16 elementos.</td><td><b>5 componentes, 16 principios, 9 elementos</b>.</td></tr>
-    <tr><td>MECIP 2008 tenía 29 componentes.</td><td>Tenía <b>3 componentes corporativos, 9 componentes y 29 estándares</b>.</td></tr>
+    <tr><td>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015 dice «cómo» hacer cada control.</td><td>Define el <b>«qué»</b>; el <b>«cómo»</b> lo decide cada institución.</td></tr>
+    <tr><td>La Resolución 377 es de 2015.</td><td>Es de <b>2016</b>. El Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay vigente es de 2015; la resolución que adopta la Norma de Requisitos Mínimos, 2016.</td></tr>
+    <tr><td>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2015: 5 componentes, 9 principios, 16 elementos.</td><td><b>5 componentes, 16 principios, 9 elementos</b>.</td></tr>
+    <tr><td>Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay 2008 tenía 29 componentes.</td><td>Tenía <b>3 componentes corporativos, 9 componentes y 29 estándares</b>.</td></tr>
     <tr><td>Autocontrol y autorregulación son lo mismo.</td><td>Autocontrol = <b>la persona</b> revisa su trabajo. Autorregulación = <b>la institución</b> se da sus reglas dentro de la ley.</td></tr>
     <tr><td>Permanente y dinámico son lo mismo.</td><td>Permanente = <b>siempre presente</b>. Dinámico = <b>se adapta a los cambios</b>.</td></tr>
     <tr><td>Verificar es corregir.</td><td>Verificar = <b>medir y comparar</b>. Actuar = <b>ajustar y mejorar</b>.</td></tr>
     <tr><td>Mapa de procesos y organigrama muestran lo mismo.</td><td>Organigrama = autoridad. Mapa de procesos = flujos e interacciones.</td></tr>
     <tr><td>Los procesos de apoyo son los menos importantes y se pueden omitir.</td><td>Proveen los recursos y condiciones para que <b>los demás procesos operen</b>.</td></tr>
     <tr><td>Para cumplir plazos se pueden quitar controles.</td><td>Hay que mejorar <b>sin debilitar legalidad, calidad ni controles</b>.</td></tr>
-    <tr><td>Las calificaciones MRE recientes son «Inicial».</td><td>De 2019 a 2024 todas están en <b>Diseñado (2 a 2,99)</b>.</td></tr>
+    <tr><td>Las calificaciones recientes del Ministerio de Relaciones Exteriores son «Inicial».</td><td>De 2019 a 2024 todas están en <b>Diseñado (2 a 2,99)</b>.</td></tr>
   </tbody>
 </table></div>
 

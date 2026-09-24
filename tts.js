@@ -59,7 +59,7 @@
     [/(\d+)\/(\d{4})\b/g,"$1 del año $2"],
     [/\bCGR\b/g,"Contraloría General de la República"],
     [/\bMECIP\b/g,"Modelo Estándar de Control Interno para las Instituciones Públicas del Paraguay"],
-    [/\bMRE\b/g,"eme erre e"],
+    [/\bMRE\b/g,"Ministerio de Relaciones Exteriores"],
     [/\bN\.\s?°\s?/g,"número "],
     [/\bRes\.\s/g,"Resolución "],[/\bEj\.:?/g,"Ejemplo:"],[/\bvs\.\s?/g,"versus "],[/\bU(\d)\b/g,"Unidad $1"],
     [/≠/g," es distinto de "],[/[→›]/g,", "],[/·/g,", "],[/[«»"“”]/g,""],[/\s*\+\s*/g," más "],[/\s=\s/g," igual a "],
