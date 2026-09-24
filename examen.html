@@ -118,6 +118,17 @@ details.mapbox summary{cursor:pointer;font-size:14px;font-weight:700;margin-top:
 .ritem .line b{font-family:var(--display);font-size:13px;letter-spacing:.04em}
 .ritem .exp{font-family:var(--body);font-size:15px;color:var(--muted);margin-top:6px}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+#ttsSettings .t{display:none}
+@media (max-width:600px){
+  body{padding-block:14px 48px}
+  .panel{padding:18px 16px}
+  .question{font-size:19px}
+  .opt{font-size:16px;grid-template-columns:30px 1fr;gap:10px;padding:11px 12px}
+  .nav .btn{padding:11px 14px}
+  .nav{gap:8px}
+  .actions .btn{flex:1 1 100%}
+  .big{font-size:52px}
+}
 </style>
 </head>
 <body>
@@ -173,6 +184,12 @@ details.mapbox summary{cursor:pointer;font-size:14px;font-weight:700;margin-top:
     </div>
   </div>
 
+  <div class="field">
+    <span class="lbl">Lectura en voz alta (opcional)</span>
+    <div id="ttsSettings"></div>
+    <div class="hint">Durante el examen, cada pregunta tiene un botón «Escuchar pregunta» que lee el enunciado y las opciones.</div>
+  </div>
+
   <div class="err" id="setupErr" role="alert"></div>
   <div class="row">
     <button type="button" class="btn" id="start">Comenzar examen</button>
@@ -189,6 +206,7 @@ details.mapbox summary{cursor:pointer;font-size:14px;font-weight:700;margin-top:
   <div class="progress"><i id="prog"></i></div>
   <div style="margin-top:18px"><span class="tag" id="qtag"></span></div>
   <p class="question" id="qtext"></p>
+  <div id="qtts"></div>
   <div class="opts" id="opts" role="group" aria-label="Opciones de respuesta"></div>
   <div id="fb"></div>
   <div class="nav">
@@ -226,6 +244,7 @@ details.mapbox summary{cursor:pointer;font-size:14px;font-weight:700;margin-top:
 
 </div>
 
+<script src="tts.js"></script>
 <script>
 /* Banco de preguntas.
    c: clase · q: enunciado · a: respuesta correcta · d: opciones trampa (se sortean) · e: explicación */
@@ -408,6 +427,8 @@ function fmt(ms){ var s=Math.floor(ms/1000); var m=Math.floor(s/60); s%=60; retu
 function updTimer(){ if(S) $("timer").textContent="Tiempo "+fmt(Date.now()-S.t0); }
 
 function render(){
+  if(window.TTS&&TTS.stop&&render.lastCur!==S.cur){ TTS.stop(); }
+  render.lastCur=S.cur;
   var it=S.items[S.cur], q=BANK[it.i], n=S.items.length;
   var answered=S.items.filter(function(x){return x.pick>=0;}).length;
   $("qnum").textContent="Pregunta "+(S.cur+1)+" de "+n+" · respondidas "+answered;
@@ -415,6 +436,16 @@ function render(){
   $("qtag").textContent=CLASS_NAME[q.c];
   $("qtext").textContent=q.q;
   var locked=cfg.mode==="now"&&it.pick>=0;
+  if(window.TTS&&TTS.supported){
+    var qt=$("qtts"); qt.innerHTML="";
+    var tb=TTS.makeButton("Escuchar pregunta"); tb.style.margin="0 0 16px";
+    tb.addEventListener("click",function(){
+      var t="Pregunta "+(S.cur+1)+". "+q.q+"\n"+it.options.map(function(o,k){return "Opción "+LETTERS[k]+": "+o;}).join("\n");
+      if(locked) t+="\n"+(it.pick===it.correct?"Correcto. ":"Incorrecto. La respuesta es la opción "+LETTERS[it.correct]+". ")+q.e;
+      TTS.speak(t,"Pregunta "+(S.cur+1),tb);
+    });
+    qt.appendChild(tb);
+  }
   var box=$("opts"); box.innerHTML="";
   it.options.forEach(function(o,k){
     var b=document.createElement("button"); b.type="button"; b.className="opt";
@@ -452,7 +483,7 @@ function askFinish(){
 }
 
 function finish(){
-  clearInterval(tick);
+  clearInterval(tick); if(window.TTS) TTS.stop(); render.lastCur=-1;
   var n=S.items.length, ok=0, per={1:[0,0],2:[0,0],3:[0,0]};
   lastWrongIdx=[];
   S.items.forEach(function(x){ var c=BANK[x.i].c; per[c][1]++; if(x.pick===x.correct){ok++;per[c][0]++;} else lastWrongIdx.push(x.i); });
@@ -520,6 +551,7 @@ document.addEventListener("keydown",function(ev){
 });
 
 refreshSetup(); showHistory();
+if(window.TTS) TTS.mountSettings($("ttsSettings"));
 </script>
 </body>
 </html>

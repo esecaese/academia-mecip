@@ -39,16 +39,23 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font
 
 /* índice lateral */
 nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);font-family:var(--display);font-size:14px}
-nav.toc .lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+nav.toc .lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;cursor:pointer}
+nav.toc .toc-actions{display:grid;gap:8px;margin-top:14px}
 nav.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
 nav.toc a{display:block;padding:6px 10px;border-radius:6px;color:var(--ink);text-decoration:none}
 nav.toc a:hover,nav.toc a:focus-visible{background:var(--chip)}
 nav.toc a.sub{padding-left:22px;color:var(--muted);font-size:13px}
-nav.toc .exam{margin-top:14px;display:block;text-align:center;background:var(--accent);color:var(--sheet);font-weight:700;padding:10px;border-radius:8px}
+nav.toc .exam{display:block;text-align:center;background:var(--accent);color:var(--sheet);font-weight:700;padding:10px;border-radius:8px}
 nav.toc .exam:hover{background:var(--accent)}
-nav.toc .print{margin-top:8px;width:100%;font:inherit;font-weight:700;background:transparent;color:var(--ink);border:1px solid var(--rule);border-radius:8px;padding:9px;cursor:pointer}
+nav.toc .print{width:100%;font:inherit;font-weight:700;background:transparent;color:var(--ink);border:1px solid var(--rule);border-radius:8px;padding:9px;cursor:pointer}
 nav.toc .print:hover{border-color:var(--ink)}
-@media (max-width:900px){nav.toc{position:static}nav.toc ol{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}nav.toc a.sub{display:none}}
+@media (max-width:900px){
+  nav.toc{position:static;background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:12px 14px}
+  nav.toc .lbl{margin:0;font-size:12px;font-weight:700;color:var(--ink)}
+  nav.toc details[open] .lbl{margin-bottom:8px}
+  nav.toc li.sub{display:none}
+  nav.toc .toc-actions{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+}
 
 main.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:40px clamp(18px,5vw,56px);min-width:0}
 a{color:var(--accent)}
@@ -156,6 +163,18 @@ dl.gloss dd{margin:0;padding:9px 0;border-bottom:1px solid var(--rule);font-size
 .cta a{background:var(--sheet);color:var(--ink);font-family:var(--display);font-weight:700;text-decoration:none;padding:10px 18px;border-radius:8px}
 footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--display)}
 
+@media (max-width:600px){
+  body{font-size:16px;padding-block:12px 48px}
+  .wrap{gap:14px}
+  main.sheet{padding:24px 16px;border-radius:8px}
+  h2{font-size:25px;margin-top:44px}
+  h3{font-size:19px}
+  .lead{font-size:17px}
+  .box{padding:12px 14px}
+  .bars{height:150px;gap:6px}.years{gap:6px}
+  th,td{padding:7px 8px}
+}
+
 /* impresión A4 */
 @page{size:A4;margin:16mm 15mm 18mm}
 @media print{
@@ -182,27 +201,31 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 <div class="wrap">
 
 <nav class="toc" aria-label="Índice">
-  <div class="lbl">Contenido</div>
+  <details id="tocd" open>
+  <summary class="lbl">Contenido</summary>
   <ol>
     <li><a href="#resumen">Resumen en una página</a></li>
     <li><a href="#clase1">Clase 1 · Introducción</a></li>
-    <li><a class="sub" href="#c1-que-es">Qué es el control interno</a></li>
-    <li><a class="sub" href="#c1-evolucion">Evolución del MECIP</a></li>
-    <li><a class="sub" href="#c1-mre">Calificaciones MRE</a></li>
+    <li class="sub"><a class="sub" href="#c1-que-es">Qué es el control interno</a></li>
+    <li class="sub"><a class="sub" href="#c1-evolucion">Evolución del MECIP</a></li>
+    <li class="sub"><a class="sub" href="#c1-mre">Calificaciones MRE</a></li>
     <li><a href="#clase2">Clase 2 · Generalidades del SCI</a></li>
-    <li><a class="sub" href="#c2-phva">Modelo PHVA</a></li>
-    <li><a class="sub" href="#c2-principios">Principios</a></li>
-    <li><a class="sub" href="#c2-caracteristicas">Características</a></li>
-    <li><a class="sub" href="#c2-responsabilidades">Responsabilidades</a></li>
+    <li class="sub"><a class="sub" href="#c2-phva">Modelo PHVA</a></li>
+    <li class="sub"><a class="sub" href="#c2-principios">Principios</a></li>
+    <li class="sub"><a class="sub" href="#c2-caracteristicas">Características</a></li>
+    <li class="sub"><a class="sub" href="#c2-responsabilidades">Responsabilidades</a></li>
     <li><a href="#clase3">Clase 3 · Enfoque por procesos</a></li>
-    <li><a class="sub" href="#c3-proceso">Qué es un proceso</a></li>
-    <li><a class="sub" href="#c3-mapa">Mapa de procesos</a></li>
-    <li><a class="sub" href="#c3-phva">PHVA en procesos</a></li>
+    <li class="sub"><a class="sub" href="#c3-proceso">Qué es un proceso</a></li>
+    <li class="sub"><a class="sub" href="#c3-mapa">Mapa de procesos</a></li>
+    <li class="sub"><a class="sub" href="#c3-phva">PHVA en procesos</a></li>
     <li><a href="#glosario">Glosario</a></li>
     <li><a href="#trampas">Confusiones frecuentes</a></li>
   </ol>
-  <a class="exam" href="examen.html">Ir al examen de práctica →</a>
-  <button type="button" class="print js-print">Imprimir / Guardar PDF</button>
+  </details>
+  <div class="toc-actions">
+    <a class="exam" href="examen.html">Ir al examen de práctica →</a>
+    <button type="button" class="print js-print">Imprimir / Guardar PDF</button>
+  </div>
 </nav>
 
 <main class="sheet">
@@ -216,6 +239,7 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
     <button type="button" class="js-print">Imprimir / Guardar como PDF</button>
     <span>Se imprime en hojas A4. Para obtener un PDF, elegí «Guardar como PDF» como destino. Atajo: <kbd>Ctrl</kbd> + <kbd>P</kbd> (en Mac <kbd>⌘</kbd> + <kbd>P</kbd>).</span>
   </div>
+  <div class="print-bar tts-box" id="ttsSettings"></div>
 </header>
 
 <!-- ============ RESUMEN ============ -->
@@ -685,8 +709,12 @@ footer{margin-top:28px;font-size:13px;color:var(--muted);font-family:var(--displ
 <footer>Guía elaborada a partir de las Clases 1, 2 y 3 del curso «Control de la Gestión Pública» (docentes: Laura Beatriz Colmán Aguilar y Patricia Adriana Ortiz).</footer>
 </main>
 </div>
+<script src="tts.js"></script>
 <script>
 (function(){
+  var d=document.getElementById('tocd');
+  if(d&&window.matchMedia&&matchMedia('(max-width:900px)').matches) d.open=false;
+  if(window.TTS){ TTS.mountSettings(document.getElementById('ttsSettings')); TTS.addBlockButtons(document.querySelector('main.sheet')); }
   document.querySelectorAll('.js-print').forEach(function(b){
     b.addEventListener('click',function(){ try{ window.print(); }catch(e){} });
   });
